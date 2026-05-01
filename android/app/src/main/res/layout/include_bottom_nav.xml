@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:background="#FFFFFF"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp">
+
+    <TextView android:id="@+id/navHome" style="@style/NavText" android:text="⌂\n홈" android:textColor="#2563EB" />
+    <TextView android:id="@+id/navAnalysis" style="@style/NavText" android:text="▥\n분석" />
+    <TextView android:id="@+id/navParticipate" style="@style/NavText" android:text="✓\n참여" />
+    <TextView android:id="@+id/navBoard" style="@style/NavText" android:text="☷\n제안" />
+    <TextView android:id="@+id/navMyPage" style="@style/NavText" android:text="○\n마이" />
+</LinearLayout>
