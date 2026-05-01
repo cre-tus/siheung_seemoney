@@ -1,0 +1,64 @@
+Index: android/app/build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    alias(libs.plugins.android.application)\r\n}\r\n\r\nandroid {\r\n    namespace = \"com.example.siheung_seemoney\"\r\n    compileSdk {\r\n        version = release(36) {\r\n            minorApiLevel = 1\r\n        }\r\n    }\r\n\r\n    defaultConfig {\r\n        applicationId = \"com.example.siheung_seemoney\"\r\n        minSdk = 35\r\n        targetSdk = 36\r\n        versionCode = 1\r\n        versionName = \"1.0\"\r\n\r\n        testInstrumentationRunner = \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            isMinifyEnabled = false\r\n            proguardFiles(\r\n                getDefaultProguardFile(\"proguard-android-optimize.txt\"),\r\n                \"proguard-rules.pro\"\r\n            )\r\n        }\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility = JavaVersion.VERSION_11\r\n        targetCompatibility = JavaVersion.VERSION_11\r\n    }\r\n}\r\n\r\ndependencies {\r\n    implementation(libs.androidx.core.ktx)\r\n    implementation(libs.androidx.appcompat)\r\n    implementation(libs.material)\r\n    implementation(libs.androidx.activity)\r\n    implementation(libs.androidx.constraintlayout)\r\n    testImplementation(libs.junit)\r\n    androidTestImplementation(libs.androidx.junit)\r\n    androidTestImplementation(libs.androidx.espresso.core)\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/android/app/build.gradle.kts b/android/app/build.gradle.kts
+--- a/android/app/build.gradle.kts	(revision 3e7106537c98058f9004c9143a955339725859f0)
++++ b/android/app/build.gradle.kts	(date 1777636018713)
+@@ -1,19 +1,16 @@
+ plugins {
+-    alias(libs.plugins.android.application)
++    id("com.android.application")
++    id("org.jetbrains.kotlin.android")
+ }
+ 
+ android {
+     namespace = "com.example.siheung_seemoney"
+-    compileSdk {
+-        version = release(36) {
+-            minorApiLevel = 1
+-        }
+-    }
++    compileSdk = 35
+ 
+     defaultConfig {
+         applicationId = "com.example.siheung_seemoney"
+-        minSdk = 35
+-        targetSdk = 36
++        minSdk = 24
++        targetSdk = 35
+         versionCode = 1
+         versionName = "1.0"
+ 
+@@ -33,15 +30,19 @@
+         sourceCompatibility = JavaVersion.VERSION_11
+         targetCompatibility = JavaVersion.VERSION_11
+     }
++    kotlinOptions {
++        jvmTarget = "11"
++    }
+ }
+ 
+ dependencies {
+-    implementation(libs.androidx.core.ktx)
+-    implementation(libs.androidx.appcompat)
+-    implementation(libs.material)
+-    implementation(libs.androidx.activity)
+-    implementation(libs.androidx.constraintlayout)
+-    testImplementation(libs.junit)
+-    androidTestImplementation(libs.androidx.junit)
+-    androidTestImplementation(libs.androidx.espresso.core)
++    implementation("androidx.core:core-ktx:1.13.1")
++    implementation("androidx.appcompat:appcompat:1.7.0")
++    implementation("com.google.android.material:material:1.12.0")
++    implementation("androidx.constraintlayout:constraintlayout:2.2.0")
++    implementation("androidx.activity:activity-ktx:1.9.3")
++
++    testImplementation("junit:junit:4.13.2")
++    androidTestImplementation("androidx.test.ext:junit:1.2.1")
++    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+ }
+\ No newline at end of file
