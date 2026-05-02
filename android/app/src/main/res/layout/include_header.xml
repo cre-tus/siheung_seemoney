@@ -8,21 +8,26 @@
     android:paddingStart="24dp"
     android:paddingEnd="24dp">
 
+    <!-- 로고 -->
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:fontFamily="@font/paperlogy_7bold"
         android:text="시흥See머니"
         android:textColor="#111827"
         android:textSize="21sp"
         android:textStyle="bold" />
 
+    <!-- 검색 버튼 -->
     <TextView
         android:id="@+id/btnSearch"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:fontFamily="@font/paperlogy_6semibold"
         android:gravity="center"
         android:text="⌕"
         android:textColor="#6B7280"
-        android:textSize="24sp" />
+        android:textSize="22sp" />
+
 </LinearLayout>

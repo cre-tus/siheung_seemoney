@@ -1,46 +1,273 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/bg_app" android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app"
+    android:orientation="vertical">
+
     <include layout="@layout/include_header" />
-    <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/bg_blue_gradient" android:orientation="vertical" android:padding="24dp">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
-                    <TextView android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_button_blue" android:gravity="center" android:text="○" android:textColor="#FFFFFF" android:textSize="32sp" />
-                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="시흥시민" android:textColor="#FFFFFF" android:textSize="22sp" android:textStyle="bold" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="🏆 실버 등급" android:textColor="#FFFFFF" android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- 프로필 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_blue_gradient"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/bg_button_blue"
+                        android:fontFamily="@font/paperlogy_7bold"
+                        android:gravity="center"
+                        android:text="○"
+                        android:textColor="#FFFFFF"
+                        android:textSize="32sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/paperlogy_7bold"
+                            android:text="시흥시민"
+                            android:textColor="#FFFFFF"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/paperlogy_6semibold"
+                            android:text="🏆 실버 등급"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:orientation="horizontal">
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="850\n포인트" android:textColor="#FFFFFF" android:textSize="20sp" android:textStyle="bold" />
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="7\n투표" android:textColor="#FFFFFF" android:textSize="20sp" android:textStyle="bold" />
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="5\n제안" android:textColor="#FFFFFF" android:textSize="20sp" android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/paperlogy_7bold"
+                        android:gravity="center"
+                        android:text="850\n포인트"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/paperlogy_7bold"
+                        android:gravity="center"
+                        android:text="7\n투표"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/paperlogy_7bold"
+                        android:gravity="center"
+                        android:text="5\n제안"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:background="@drawable/bg_card" android:orientation="vertical" android:padding="20dp">
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="다음 등급까지                                      149P 남음" android:textColor="#111827" android:textStyle="bold" />
-                <ProgressBar style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="12dp" android:layout_marginTop="12dp" android:max="100" android:progress="70" android:progressDrawable="@drawable/bg_progress_blue" />
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="실버 → 골드" android:textColor="#6B7280" android:textSize="12sp" />
+
+            <!-- 다음 등급 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_6semibold"
+                    android:text="다음 등급까지                                      149P 남음"
+                    android:textColor="#111827"
+                    android:textStyle="bold" />
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:layout_marginTop="12dp"
+                    android:max="100"
+                    android:progress="70"
+                    android:progressDrawable="@drawable/bg_progress_blue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/paperlogy_4regular"
+                    android:text="실버 → 골드"
+                    android:textColor="#6B7280"
+                    android:textSize="12sp" />
             </LinearLayout>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:background="@drawable/bg_card" android:orientation="vertical" android:padding="20dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="등급별 혜택" android:textColor="#111827" android:textSize="17sp" android:textStyle="bold" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:background="@drawable/bg_card_border" android:padding="12dp" android:text="브론즈     뉴스 열람                         0P~" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:background="@drawable/bg_card_border" android:padding="12dp" android:text="실버 현재  투표 참여 + 뱃지                 500P~" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:background="@drawable/bg_card_border" android:padding="12dp" android:text="골드       제안 작성 + 특별 뱃지             1000P~" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:background="@drawable/bg_card_border" android:padding="12dp" android:text="플래티넘   우선 답변 + 프리미엄 뱃지          2000P~" />
+
+            <!-- 혜택 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_7bold"
+                    android:text="등급별 혜택"
+                    android:textColor="#111827"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_card_border"
+                    android:fontFamily="@font/paperlogy_5medium"
+                    android:padding="12dp"
+                    android:text="브론즈     뉴스 열람                         0P~" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_card_border"
+                    android:fontFamily="@font/paperlogy_5medium"
+                    android:padding="12dp"
+                    android:text="실버 현재  투표 참여 + 뱃지                 500P~" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_card_border"
+                    android:fontFamily="@font/paperlogy_5medium"
+                    android:padding="12dp"
+                    android:text="골드       제안 작성 + 특별 뱃지             1000P~" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_card_border"
+                    android:fontFamily="@font/paperlogy_5medium"
+                    android:padding="12dp"
+                    android:text="플래티넘   우선 답변 + 프리미엄 뱃지          2000P~" />
             </LinearLayout>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:background="@drawable/bg_card" android:orientation="vertical" android:padding="20dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="참여 내역" android:textColor="#111827" android:textSize="17sp" android:textStyle="bold" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="✓ 2027년 복지 예산 우선순위 투표\n2026.04.16                                      +100P" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="☷ 청년 창업 지원 예산 확대 요청 작성\n2026.04.15                                      +100P" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="✓ 교통 인프라 개선 방향 투표\n2026.04.14                                      +100P" />
+
+            <!-- 참여 내역 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_7bold"
+                    android:text="참여 내역"
+                    android:textColor="#111827"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/paperlogy_4regular"
+                    android:text="✓ 2027년 복지 예산 우선순위 투표\n2026.04.16                                      +100P" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/paperlogy_4regular"
+                    android:text="☷ 청년 창업 지원 예산 확대 요청 작성\n2026.04.15                                      +100P" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/paperlogy_4regular"
+                    android:text="✓ 교통 인프라 개선 방향 투표\n2026.04.14                                      +100P" />
             </LinearLayout>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:background="@drawable/bg_yellow_light" android:orientation="vertical" android:padding="20dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🏆 포인트 적립 안내" android:textColor="#713F12" android:textStyle="bold" />
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="• 투표 참여: 100P\n• 제안 작성: 100P\n• 공감하기: 50P" android:textColor="#854D0E" />
+
+            <!-- 포인트 안내 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_yellow_light"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_7bold"
+                    android:text="🏆 포인트 적립 안내"
+                    android:textColor="#713F12"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/paperlogy_4regular"
+                    android:text="• 투표 참여: 100P\n• 제안 작성: 100P\n• 공감하기: 50P"
+                    android:textColor="#854D0E" />
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
+
     <include layout="@layout/include_bottom_nav" />
 </LinearLayout>

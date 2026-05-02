@@ -8,9 +8,59 @@
     android:paddingStart="12dp"
     android:paddingEnd="12dp">
 
-    <TextView android:id="@+id/navHome" style="@style/NavText" android:text="⌂\n홈" android:textColor="#2563EB" />
-    <TextView android:id="@+id/navAnalysis" style="@style/NavText" android:text="▥\n분석" />
-    <TextView android:id="@+id/navParticipate" style="@style/NavText" android:text="✓\n참여" />
-    <TextView android:id="@+id/navBoard" style="@style/NavText" android:text="☷\n제안" />
-    <TextView android:id="@+id/navMyPage" style="@style/NavText" android:text="○\n마이" />
+    <TextView
+        android:id="@+id/navHome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/paperlogy_6semibold"
+        android:gravity="center"
+        android:text="⌂\n홈"
+        android:textColor="#2563EB"
+        android:textSize="12sp" />
+=
+    <TextView
+        android:id="@+id/navAnalysis"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/paperlogy_5medium"
+        android:gravity="center"
+        android:text="▥\n분석"
+        android:textColor="#6B7280"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/navParticipate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/paperlogy_5medium"
+        android:gravity="center"
+        android:text="✓\n참여"
+        android:textColor="#6B7280"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/navBoard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/paperlogy_5medium"
+        android:gravity="center"
+        android:text="☷\n제안"
+        android:textColor="#6B7280"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/navMyPage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/paperlogy_5medium"
+        android:gravity="center"
+        android:text="○\n마이"
+        android:textColor="#6B7280"
+        android:textSize="12sp" />
+
 </LinearLayout>
