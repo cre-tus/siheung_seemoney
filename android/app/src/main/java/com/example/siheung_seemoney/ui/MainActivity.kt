@@ -1,46 +1,20 @@
-package com.example.siheung_seemoney
+package com.example.siheung_seemoney.ui
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.siheung_seemoney.base.BaseActivity
 import com.example.siheung_seemoney.databinding.ActivityHomeBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<ActivityHomeBinding>() {
 
-    private lateinit var binding: ActivityHomeBinding
+    override fun inflateBinding(): ActivityHomeBinding {
+        return ActivityHomeBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityHomeBinding.inflate(layoutInflater)
-        enableEdgeToEdge()
-        setContentView(binding.root)
-
-        // 하단 네비게이션
-        binding.navHome.setOnClickListener {
-            // 현재 홈
-        }
-
-        binding.navAnalysis.setOnClickListener {
-            startActivity(Intent(this, AnalysisActivity::class.java))
-        }
-
-        binding.navParticipate.setOnClickListener {
-            startActivity(Intent(this, ParticipateActivity::class.java))
-        }
-
-        binding.navBoard.setOnClickListener {
-            startActivity(Intent(this, BoardActivity::class.java))
-        }
-
-        binding.navMyPage.setOnClickListener {
-            startActivity(Intent(this, MyPageActivity::class.java))
-        }
-
-        // 인셋 처리
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(

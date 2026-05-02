@@ -57,10 +57,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:drawableTop="@drawable/ic_person"
+        android:drawablePadding="2dp"
         android:fontFamily="@font/paperlogy_5medium"
         android:gravity="center"
-        android:text="○\n마이"
+        android:text="마이"
         android:textColor="#6B7280"
-        android:textSize="12sp" />
+        android:textSize="11sp" />
 
 </LinearLayout>
