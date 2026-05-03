@@ -8,6 +8,7 @@ import androidx.viewbinding.ViewBinding
 import com.example.siheung_seemoney.R
 import com.example.siheung_seemoney.ui.AnalysisActivity
 import com.example.siheung_seemoney.ui.BoardActivity
+import com.example.siheung_seemoney.ui.LoginActivity
 import com.example.siheung_seemoney.ui.MainActivity
 import com.example.siheung_seemoney.ui.MyPageActivity
 import com.example.siheung_seemoney.ui.ParticipateActivity
@@ -45,7 +46,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         }
 
         binding.root.findViewById<TextView>(R.id.navMyPage)?.setOnClickListener {
-            moveTo(MyPageActivity::class.java)
+            moveTo(LoginActivity::class.java)
         }
     }
 
