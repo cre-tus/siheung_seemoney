@@ -1,4 +1,4 @@
-package com.siheung.backend;
+package com.siheung.seemoney;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
