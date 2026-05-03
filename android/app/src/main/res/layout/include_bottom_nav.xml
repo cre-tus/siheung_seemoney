@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:background="#FFFFFF"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp">
+
+    <TextView
+        android:id="@+id/navHome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/paperlogy_6semibold"
+        android:gravity="center"
+        android:text="⌂\n홈"
+        android:textColor="#2563EB"
+        android:textSize="12sp" />
+=
+    <TextView
+        android:id="@+id/navAnalysis"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/paperlogy_5medium"
+        android:gravity="center"
+        android:text="▥\n분석"
+        android:textColor="#6B7280"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/navParticipate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/paperlogy_5medium"
+        android:gravity="center"
+        android:text="✓\n참여"
+        android:textColor="#6B7280"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/navBoard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/paperlogy_5medium"
+        android:gravity="center"
+        android:text="☷\n제안"
+        android:textColor="#6B7280"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/navMyPage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_person"
+        android:drawablePadding="2dp"
+        android:fontFamily="@font/paperlogy_5medium"
+        android:gravity="center"
+        android:text="마이"
+        android:textColor="#6B7280"
+        android:textSize="11sp" />
+
+</LinearLayout>
