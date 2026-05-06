@@ -1,7 +1,7 @@
 디렉토리 구조 
 app/src/main/java/com/example/siheung_seemoney/
 │
-├── MainActivity.kt
+├── HomeActivity.kt
 │
 ├── ui/                  # 화면
 │   ├── home/            # 메인 (예산/부채 카드)

@@ -2,6 +2,9 @@ package com.example.siheung_seemoney.ui.custom
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.RelativeSizeSpan
 import android.util.AttributeSet
 import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.widget.AppCompatTextView
@@ -21,13 +24,15 @@ class AnimatedNumberTextView @JvmOverloads constructor(
      * @param startValue 시작 숫자
      * @param endValue 목표 숫자
      * @param duration 애니메이션 지속 시간 (ms)
-     * @param suffix 숫자 뒤에 붙일 문자열 (예: "원")
+     * @param suffix 숫자 뒤에 붙일 문자열 (예: " 억원")
+     * @param suffixScale 단위 문자열의 크기 비율 (예: 0.5f 이면 원래 텍스트 크기의 절반)
      */
     fun animateToNumber(
         startValue: Long,
         endValue: Long,
         duration: Long = 1500L,
-        suffix: String = "원"
+        suffix: String = "원",
+        suffixScale: Float = 0.5f
     ) {
         // 이전 애니메이션이 진행 중이라면 취소
         valueAnimator?.cancel()
@@ -40,7 +45,20 @@ class AnimatedNumberTextView @JvmOverloads constructor(
             addUpdateListener { animator ->
                 val animatedValue = (animator.animatedValue as Float).toLong()
                 val formattedNumber = decimalFormat.format(animatedValue)
-                text = "$formattedNumber$suffix"
+                
+                // Spannable을 사용하여 단위(suffix) 텍스트만 크기를 줄임
+                val spannable = SpannableStringBuilder(formattedNumber).apply {
+                    append(suffix)
+                    if (suffix.isNotEmpty()) {
+                        setSpan(
+                            RelativeSizeSpan(suffixScale),
+                            length - suffix.length,
+                            length,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                    }
+                }
+                text = spannable
             }
         }
         

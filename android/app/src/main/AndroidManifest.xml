@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Siheung_Seemoney">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.HomeActivity"
 
             android:exported="true">
             <intent-filter>

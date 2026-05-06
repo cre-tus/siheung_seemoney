@@ -9,7 +9,7 @@ import com.example.siheung_seemoney.R
 import com.example.siheung_seemoney.ui.AnalysisActivity
 import com.example.siheung_seemoney.ui.BoardActivity
 import com.example.siheung_seemoney.ui.LoginActivity
-import com.example.siheung_seemoney.ui.MainActivity
+import com.example.siheung_seemoney.ui.HomeActivity
 import com.example.siheung_seemoney.ui.MyPageActivity
 import com.example.siheung_seemoney.ui.ParticipateActivity
 
@@ -30,7 +30,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     private fun setupBottomNav() {
         binding.root.findViewById<TextView>(R.id.navHome)?.setOnClickListener {
-            moveTo(MainActivity::class.java)
+            moveTo(HomeActivity::class.java)
         }
 
         binding.root.findViewById<TextView>(R.id.navAnalysis)?.setOnClickListener {

@@ -6,7 +6,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.siheung_seemoney.base.BaseActivity
 import com.example.siheung_seemoney.databinding.ActivityHomeBinding
 
-class MainActivity : BaseActivity<ActivityHomeBinding>() {
+class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     // 레이아웃 인플레이터를 사용하여 ActivityHomeBinding 인스턴스를 생성
     override fun inflateBinding(): ActivityHomeBinding {
@@ -29,20 +29,21 @@ class MainActivity : BaseActivity<ActivityHomeBinding>() {
         }
 
         // 홈 화면 진입 시 타이머 및 스톱워치 애니메이션 실행 (더미 데이터 적용)
-        // 예산 감소: 1조 6천억 원 -> 1조 5,800억 원
+        // 단위: 백만원 (1조 6천억 원 = 1,600,000 백만원)
+        // 예산 감소: 1,600,000 -> 1,580,000
         binding.tvBudgetAmount.animateToNumber(
-            startValue = 1_600_000_000_000L,
-            endValue = 1_580_000_000_000L,
+            startValue = 1600000L,
+            endValue = 1580000L,
             duration = 2500L, // 2.5초 지속
-            suffix = "원"
+            suffix = ""
         )
 
-        // 부채 증가: 1,200억 원 -> 1,250억 원
+        // 부채 증가: 120,000 -> 125,000
         binding.tvDebtAmount.animateToNumber(
-            startValue = 120_000_000_000L,
-            endValue = 125_000_000_000L,
+            startValue = 120000L,
+            endValue = 125000L,
             duration = 2500L, // 2.5초 지속
-            suffix = "원"
+            suffix = ""
         )
     }
 }
