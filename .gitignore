@@ -24,3 +24,6 @@ backend/build/
 # OS
 .DS_Store
 Thumbs.db
+
+# Personal documents
+personal_docs.md

@@ -2,36 +2,40 @@ package com.example.siheung_seemoney.ui
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.siheung_seemoney.R
+import com.example.siheung_seemoney.databinding.ActivityLoginBinding
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import java.io.IOException
 
 class LoginActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityLoginBinding
     private val client = OkHttpClient()
     private val TAG = "LOGIN_API"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        
+        // 레이아웃 인플레이터를 사용하여 ActivityLoginBinding 인스턴스를 생성
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val emailEditText = findViewById<EditText>(R.id.emailEditText)
-        val passwordEditText = findViewById<EditText>(R.id.passwordEditText)
-        val loginButton = findViewById<Button>(R.id.loginButton)
-
-        loginButton.setOnClickListener {
-            login(
-                emailEditText.text.toString(),
-                passwordEditText.text.toString()
-            )
+        // 로그인 버튼 클릭 시 입력된 이메일과 비밀번호를 가져와 로그인 API 호출
+        binding.loginButton.setOnClickListener {
+            val email = binding.emailEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
+            
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                login(email, password)
+            } else {
+                Toast.makeText(this, "이메일과 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
+    // 서버에 로그인 요청을 보내는 함수
     private fun login(email: String, password: String) {
         val json = """
             {
@@ -46,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
         )
 
         val request = Request.Builder()
-            .url("http://10.0.2.2:8081/api/auth/login")
+            .url("http://10.0.2.2:8080/api/auth/login") // 포트 확인 필요
             .post(requestBody)
             .build()
 

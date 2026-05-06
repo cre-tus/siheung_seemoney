@@ -6,13 +6,12 @@ import com.example.siheung_seemoney.databinding.ActivityBoardBinding
 
 class BoardActivity : BaseActivity<ActivityBoardBinding>() {
 
+    // 레이아웃 인플레이터를 사용하여 ActivityBoardBinding 인스턴스를 생성
     override fun inflateBinding(): ActivityBoardBinding {
         return ActivityBoardBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // 제안(게시판) 로직 여기 추가
     }
 }
