@@ -1,4 +1,4 @@
-
+do
 
 # 처음 실행
 `docker compose up --build`
