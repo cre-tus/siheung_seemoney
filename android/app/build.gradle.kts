@@ -59,6 +59,9 @@ dependencies {
     // Coroutines: 나중에 API 호출 시 필요 (지금은 구조만)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
 
+    // Chart: MPAndroidChart
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
