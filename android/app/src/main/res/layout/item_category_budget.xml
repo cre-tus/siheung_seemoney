@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvCategoryName" />
 
     <TextView
-        android:id="@+id/tvCategoryChangeRate"
+        android:id="@+id/tvCategoryPercentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/paperlogy_6semibold"
@@ -39,18 +39,6 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/tvCategoryBudget"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/tvCategoryPercentage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/paperlogy_6semibold"
-        android:textColor="#111827"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/tvCategoryBudget"
-        app:layout_constraintEnd_toStartOf="@id/tvCategoryChangeRate" />
 
     <ProgressBar
         android:id="@+id/pbCategory"

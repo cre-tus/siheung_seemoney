@@ -1,9 +1,12 @@
 package com.example.siheung_seemoney.data.repository
 
-import com.example.siheung_seemoney.data.model.BudgetCategory
-import com.example.siheung_seemoney.data.model.CategoryBudget
+import com.example.siheung_seemoney.data.model.BudgetLiveResponse
+import com.example.siheung_seemoney.data.model.BudgetSummaryResponse
 import com.example.siheung_seemoney.data.model.FinanceSummaryResponse
+import com.example.siheung_seemoney.data.model.CategoryBudget
+import com.example.siheung_seemoney.data.network.RetrofitClient
 import com.example.siheung_seemoney.R
+import kotlin.collections.emptyList
 
 /**
  * 홈 화면 재정 데이터의 출처를 관리하는 Repository.
@@ -12,47 +15,70 @@ import com.example.siheung_seemoney.R
 class FinanceRepository {
 
     companion object {
-        // ================================================================
-        // MOCK DATA - 백엔드 API 연동 전 임시 가짜 데이터
-        // API 연동 완료 후 이 companion object 블록 전체 삭제할 것
-        // ================================================================
-        val MOCK = FinanceSummaryResponse(
-            totalBudget          = 1_600_000L,
-            usedBudget           = 1_580_000L,
-            totalDebt            = 120_000L,
-            currentDebt          = 125_000L,
-            annualBudgetDecrease = 1_600_000L,  // 연간 전체 예산이 소진됨 (실제값)
-            annualDebtIncrease   = 50_000L,     // 연간 부채 5만억원 증가 추정 (실제값)
-            categories           = listOf(
-                BudgetCategory("복지", 40),
-                BudgetCategory("교통", 25),
-                BudgetCategory("환경", 15),
-                BudgetCategory("기타", 20)
-            )
-        )
-        // ================================================================
-        // MOCK DATA 끝
-        // ================================================================
+        // 부채(Debt) 관련 임시 가짜 데이터 (API 미구현 상태)
+        const val MOCK_TOTAL_DEBT = 120_000L
+        const val MOCK_CURRENT_DEBT = 125_000L
+        const val MOCK_ANNUAL_DEBT_INCREASE = 50_000L
     }
 
-    fun getFinanceSummary(): FinanceSummaryResponse {
-        return MOCK
+    suspend fun getFinanceSummary(): FinanceSummaryResponse {
+        return try {
+            // 라이브 예산은 최신 연도(2026) 기준으로 가져옴
+            val apiData = RetrofitClient.instance.getLiveBudget(2026)
+            
+            // 초당 변화량을 연간 변화량으로 역산하여 기존 UI 로직 호환
+            val amountPerYear = (apiData.amountPerSecond * 365.0 * 24 * 3600).toLong()
 
-        // API 연동 시: 위 줄 삭제하고 아래 주석 해제
-        // return apiService.getFinanceSummary()
+            FinanceSummaryResponse(
+                totalBudget = apiData.totalAmount,
+                usedBudget = apiData.usedAmount,
+                totalDebt = MOCK_TOTAL_DEBT,
+                currentDebt = MOCK_CURRENT_DEBT,
+                annualBudgetDecrease = amountPerYear,
+                annualDebtIncrease = MOCK_ANNUAL_DEBT_INCREASE,
+                categories = emptyList()
+            )
+        } catch (e: Exception) {
+            // 통신 실패 시 빈 데이터 반환 (임시 예외 처리)
+            e.printStackTrace()
+            FinanceSummaryResponse(
+                totalBudget = 0L,
+                usedBudget = 0L,
+                totalDebt = MOCK_TOTAL_DEBT,
+                currentDebt = MOCK_CURRENT_DEBT,
+                annualBudgetDecrease = 0L,
+                annualDebtIncrease = MOCK_ANNUAL_DEBT_INCREASE,
+                categories = emptyList()
+            )
+        }
     }
 
     /**
      * 분석 화면에 표시할 분야별 예산 데이터를 반환합니다.
-     * 현재는 UI 구성을 위한 가짜 데이터(Mock Data)를 반환하고 있으며, 
-     * 차후 API가 완성되면 apiService.getCategoryBudgets() 등으로 변경할 예정입니다.
      */
-    fun getCategoryBudgets(): List<CategoryBudget> {
-        return listOf(
-            CategoryBudget("복지", 2093649200000L, 40, 5.2, R.drawable.bg_progress_blue),
-            CategoryBudget("교통", 1308530750000L, 25, 8.1, R.drawable.bg_progress_green),
-            CategoryBudget("환경", 785118450000L, 15, -2.3, R.drawable.bg_progress_orange),
-            CategoryBudget("기타", 1046824600000L, 20, 1.5, R.drawable.bg_progress_purple)
-        )
+    suspend fun getCategoryBudgets(year: Int): List<CategoryBudget> {
+        return try {
+            val apiData = RetrofitClient.instance.getBudgetSummary(year)
+            val colorResIds = listOf(
+                R.drawable.bg_progress_blue,
+                R.drawable.bg_progress_green,
+                R.drawable.bg_progress_orange,
+                R.drawable.bg_progress_purple
+            )
+
+            apiData.categories.mapIndexed { index, dto ->
+                CategoryBudget(
+                    categoryName = dto.categoryName,
+                    budget = dto.amount,
+                    percentage = (dto.ratio * 100).toInt(),
+                    changeRate = dto.changeRate,
+                    colorResId = colorResIds[index % colorResIds.size]
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // 에러 시 빈 리스트 반환하여 시각적으로 데이터가 비었음을 표시
+            emptyList()
+        }
     }
 }

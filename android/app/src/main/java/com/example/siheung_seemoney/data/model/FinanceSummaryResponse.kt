@@ -2,7 +2,6 @@ package com.example.siheung_seemoney.data.model
 
 /**
  * 홈 화면에서 사용하는 재정 요약 데이터 모델.
- * 나중에 백엔드 API 응답 JSON과 필드명을 맞춰야 함 (백엔드 팀과 합의 필요).
  */
 data class FinanceSummaryResponse(
     val totalBudget: Long,           // 전체 예산 (백만원 단위)

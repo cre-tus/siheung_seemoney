@@ -3,8 +3,10 @@ package com.example.siheung_seemoney.view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.siheung_seemoney.data.model.CategoryBudget
 import com.example.siheung_seemoney.data.repository.FinanceRepository
+import kotlinx.coroutines.launch
 
 /**
  * 분석 화면(AnalysisActivity)의 데이터를 관리하는 ViewModel.
@@ -19,17 +21,21 @@ class AnalysisViewModel : ViewModel() {
     val categoryBudgets: LiveData<List<CategoryBudget>> get() = _categoryBudgets
 
     init {
-        // ViewModel 생성 시 초기 데이터를 로드합니다.
-        loadCategoryBudgets()
+        // ViewModel 생성 시 초기 데이터를 로드합니다. (예: 2026년)
+        loadCategoryBudgetsForYear(2026)
     }
 
     /**
-     * Repository를 통해 분야별 예산 데이터를 로드합니다.
-     * 향후 서버 API 연동 시 Coroutine(viewModelScope.launch)을 사용하여
-     * 비동기적으로 데이터를 가져오도록 수정해야 합니다.
+     * Repository를 통해 특정 연도의 분야별 예산 데이터를 로드합니다.
      */
-    private fun loadCategoryBudgets() {
-        // API 연동 시 코루틴을 사용하여 비동기 호출
-        _categoryBudgets.value = repository.getCategoryBudgets()
+    fun loadCategoryBudgetsForYear(year: Int) {
+        viewModelScope.launch {
+            try {
+                val budgets = repository.getCategoryBudgets(year)
+                _categoryBudgets.value = budgets
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }
