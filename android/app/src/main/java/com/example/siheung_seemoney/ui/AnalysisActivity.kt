@@ -1,5 +1,6 @@
 package com.example.siheung_seemoney.ui
 
+import com.example.siheung_seemoney.R
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -12,6 +13,8 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 
 /**
  * 분석 화면 Activity.
@@ -35,7 +38,37 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
 
         setupRecyclerView()
         setupCharts()
+        setupYearButtons()
         observeViewModel()
+    }
+
+    /**
+     * 상단 연도 버튼들에 클릭 리스너를 설정합니다.
+     */
+    private fun setupYearButtons() {
+        val yearButtons = mapOf(
+            2022 to binding.year2022,
+            2023 to binding.year2023,
+            2024 to binding.year2024,
+            2025 to binding.year2025,
+            2026 to binding.year2026
+        )
+
+        yearButtons.forEach { (year, textView) ->
+            textView.setOnClickListener {
+                // 모든 버튼 스타일 초기화 (회색 배경)
+                yearButtons.values.forEach { 
+                    it.setBackgroundResource(R.drawable.bg_button_gray)
+                    it.setTextColor(Color.parseColor("#111827"))
+                }
+                // 클릭된 버튼 강조 (파란색 배경)
+                textView.setBackgroundResource(R.drawable.bg_button_blue)
+                textView.setTextColor(Color.WHITE)
+                
+                // 데이터 로드
+                viewModel.loadCategoryBudgetsForYear(year)
+            }
+        }
     }
 
     /**
@@ -50,10 +83,7 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
      * ViewModel의 LiveData를 관찰하여 UI(어댑터)를 업데이트합니다.
      */
     private fun observeViewModel() {
-        viewModel.categoryBudgets.observe(this) { budgets ->
-            adapter.submitList(budgets)
-            // 나중에 차트 데이터도 ViewModel에서 가져오도록 관찰 로직을 추가할 수 있습니다.
-        }
+        viewModel.categoryBudgets.observe(this, adapter::submitList)
     }
 
     /**
@@ -112,7 +142,20 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
         lineChart.data = lineData
         lineChart.invalidate()
 
+        // 차트 클릭 시 연도별 데이터 로드
+        lineChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+                val index = e?.x?.toInt() ?: return
+                val years = listOf(2022, 2023, 2024, 2025, 2026)
+                if (index in years.indices) {
+                    val selectedYear = years[index]
+                    viewModel.loadCategoryBudgetsForYear(selectedYear)
+                }
+            }
 
-
+            override fun onNothingSelected() {
+                // 선택 해제 시 추가 동작 필요없음
+            }
+        })
     }
 }

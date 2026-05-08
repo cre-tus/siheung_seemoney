@@ -20,11 +20,10 @@ backend/build/
 
 # Env
 .env
-application-local.yml
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Personal documents
+# Personal documents_이재원
 personal_docs.md

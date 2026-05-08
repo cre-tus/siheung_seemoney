@@ -55,30 +55,36 @@ class HomeViewModel : ViewModel() {
      * - ViewModel이 소멸(화면 종료)되면 타이머 자동 중지
      */
     fun startFinanceTimer() {
-        val data = repository.getFinanceSummary()
-
-        // Double로 누적 추적 (소수점 이하 변화량도 정확히 쌓임)
-        var budget = data.usedBudget.toDouble()
-        var debt   = data.currentDebt.toDouble()
-
-        // 초당 변화량 (SIMULATION_SPEED 배율 적용)
-        val budgetDecreasePerTick = (data.annualBudgetDecrease.toDouble() / SECONDS_IN_YEAR) * SIMULATION_SPEED
-        val debtIncreasePerTick   = (data.annualDebtIncrease.toDouble()   / SECONDS_IN_YEAR) * SIMULATION_SPEED
-
-        // 초기값 즉시 설정
-        _currentBudget.value = budget.toLong()
-        _currentDebt.value   = debt.toLong()
-
         // 이전 타이머 취소 후 새로 시작
         timerJob?.cancel()
         timerJob = viewModelScope.launch {
-            while (true) {
-                delay(TICK_INTERVAL_MS)
-                // 예산은 0 아래로 내려가지 않음 (음수 방지)
-                budget = maxOf(0.0, budget - budgetDecreasePerTick)
-                debt   += debtIncreasePerTick
+            try {
+                // API 연동으로 suspend 함수가 되었으므로 여기서 대기
+                val data = repository.getFinanceSummary()
+
+                // Double로 누적 추적 (소수점 이하 변화량도 정확히 쌓임)
+                var budget = data.usedBudget.toDouble()
+                var debt   = data.currentDebt.toDouble()
+
+                // 초당 변화량 (SIMULATION_SPEED 배율 적용)
+                val budgetDecreasePerTick = (data.annualBudgetDecrease.toDouble() / SECONDS_IN_YEAR) * SIMULATION_SPEED
+                val debtIncreasePerTick   = (data.annualDebtIncrease.toDouble()   / SECONDS_IN_YEAR) * SIMULATION_SPEED
+
+                // 초기값 즉시 설정
                 _currentBudget.value = budget.toLong()
                 _currentDebt.value   = debt.toLong()
+
+                // 타이머 루프 시작
+                while (true) {
+                    delay(TICK_INTERVAL_MS)
+                    // 예산은 0 아래로 내려가지 않음 (음수 방지)
+                    budget = maxOf(0.0, budget - budgetDecreasePerTick)
+                    debt   += debtIncreasePerTick
+                    _currentBudget.value = budget.toLong()
+                    _currentDebt.value   = debt.toLong()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }

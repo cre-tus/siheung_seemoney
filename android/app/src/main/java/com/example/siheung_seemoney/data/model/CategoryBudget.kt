@@ -2,7 +2,6 @@ package com.example.siheung_seemoney.data.model
 
 /**
  * 분석 화면의 분야별 예산 정보를 담는 데이터 클래스 (DTO).
- * API 연동 시 백엔드 응답 구조에 맞추어 필드명이 변경될 수 있습니다.
  */
 data class CategoryBudget(
     val categoryName: String, // 분야명 (예: 복지, 교통)

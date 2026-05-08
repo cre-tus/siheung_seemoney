@@ -53,19 +53,7 @@ class CategoryBudgetAdapter : RecyclerView.Adapter<ViewHolder>() {
             binding.tvCategoryName.text = "● ${item.categoryName}"
             binding.tvCategoryBudget.text = "${formatter.format(item.budget)}원"
             binding.tvCategoryPercentage.text = "${item.percentage}%"
-            
-            // 전년 대비 변동률 부호에 따른 화살표 표시
-            val sign = if (item.changeRate > 0) "↗ +" else if (item.changeRate < 0) "↘ " else ""
-            binding.tvCategoryChangeRate.text = "$sign${item.changeRate}%"
-            
-            // 변동률 텍스트 색상 변경 (증가: 빨강, 감소: 파랑, 동일: 검정)
-            if (item.changeRate > 0) {
-                binding.tvCategoryChangeRate.setTextColor(Color.parseColor("#EF4444"))
-            } else if (item.changeRate < 0) {
-                binding.tvCategoryChangeRate.setTextColor(Color.parseColor("#3B82F6"))
-            } else {
-                binding.tvCategoryChangeRate.setTextColor(Color.parseColor("#111827"))
-            }
+            // 변동률 및 화살표 표시 로직 제거됨 (요구사항 반영)
 
             // 프로그레스 바 수치 및 색상(Drawable) 바인딩
             binding.pbCategory.progress = item.percentage
