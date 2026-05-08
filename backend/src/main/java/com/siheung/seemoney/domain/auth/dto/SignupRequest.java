@@ -5,11 +5,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginRequest {
+public class SignupRequest {
 
-    // 로그인 이메일
+    // 회원가입 이메일
     private String email;
 
     // 원본 비밀번호
     private String password;
+
+    // 사용자 주소
+    private String address;
 }
