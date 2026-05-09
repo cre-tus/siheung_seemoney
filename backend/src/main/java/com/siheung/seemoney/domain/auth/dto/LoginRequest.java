@@ -1,9 +1,15 @@
 package com.siheung.seemoney.domain.auth.dto;
 
-public class LoginRequest {
-    private String email;
-    private String password;
+import lombok.Getter;
+import lombok.Setter;
 
-    public String getEmail() {return email;}
-    public String getPassword() {return password;}
+@Getter
+@Setter
+public class LoginRequest {
+
+    // 로그인 이메일
+    private String email;
+
+    // 원본 비밀번호
+    private String password;
 }

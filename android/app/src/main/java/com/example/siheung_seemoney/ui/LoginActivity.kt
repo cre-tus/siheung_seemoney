@@ -1,42 +1,96 @@
 package com.example.siheung_seemoney.ui
 
+import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.siheung_seemoney.databinding.ActivityLoginBinding
+import com.example.siheung_seemoney.R
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import java.io.IOException
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityLoginBinding
     private val client = OkHttpClient()
     private val TAG = "LOGIN_API"
 
+    private var showPassword = false
+    private var isLoading = false
+
+    private lateinit var emailEditText: EditText
+    private lateinit var passwordEditText: EditText
+    private lateinit var loginButton: Button
+    private lateinit var guestButton: Button
+    private lateinit var tvError: TextView
+    private lateinit var btnTogglePassword: TextView
+    private lateinit var btnForgot: TextView
+    private lateinit var btnSignup: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
-        // 레이아웃 인플레이터를 사용하여 ActivityLoginBinding 인스턴스를 생성
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_login)
 
-        // 로그인 버튼 클릭 시 입력된 이메일과 비밀번호를 가져와 로그인 API 호출
-        binding.loginButton.setOnClickListener {
-            val email = binding.emailEditText.text.toString()
-            val password = binding.passwordEditText.text.toString()
-            
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                login(email, password)
+        emailEditText = findViewById(R.id.emailEditText)
+        passwordEditText = findViewById(R.id.passwordEditText)
+        loginButton = findViewById(R.id.loginButton)
+        guestButton = findViewById(R.id.guestButton)
+        tvError = findViewById(R.id.tvError)
+        btnTogglePassword = findViewById(R.id.btnTogglePassword)
+        btnForgot = findViewById(R.id.btnForgot)
+        btnSignup = findViewById(R.id.btnSignup)
+
+        btnTogglePassword.setOnClickListener {
+            showPassword = !showPassword
+
+            if (showPassword) {
+                passwordEditText.inputType = InputType.TYPE_CLASS_TEXT
+                btnTogglePassword.text = "숨김"
             } else {
-                Toast.makeText(this, "이메일과 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                passwordEditText.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                btnTogglePassword.text = "보기"
             }
+
+            passwordEditText.setSelection(passwordEditText.text.length)
+        }
+
+        loginButton.setOnClickListener {
+            handleLogin()
+        }
+
+        btnForgot.setOnClickListener {
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+        }
+
+        btnSignup.setOnClickListener {
+            startActivity(Intent(this, SignupActivity::class.java))
+        }
+
+        guestButton.setOnClickListener {
+            goToHome()
         }
     }
 
-    // 서버에 로그인 요청을 보내는 함수
+    private fun handleLogin() {
+        hideError()
+
+        val email = emailEditText.text.toString().trim()
+        val password = passwordEditText.text.toString().trim()
+
+        if (email.isEmpty() || password.isEmpty()) {
+            showError("이메일과 비밀번호를 모두 입력해주세요")
+            return
+        }
+
+        login(email, password)
+    }
+
     private fun login(email: String, password: String) {
+        setLoading(true)
+
         val json = """
             {
                 "email": "$email",
@@ -50,7 +104,7 @@ class LoginActivity : AppCompatActivity() {
         )
 
         val request = Request.Builder()
-            .url("http://10.0.2.2:8080/api/auth/login") // 포트 확인 필요
+            .url("http://10.0.2.2:8081/api/auth/login")
             .post(requestBody)
             .build()
 
@@ -62,7 +116,8 @@ class LoginActivity : AppCompatActivity() {
                 Log.e(TAG, "서버 연결 실패", e)
 
                 runOnUiThread {
-                    Toast.makeText(this@LoginActivity, "서버 연결 실패: ${e.message}", Toast.LENGTH_LONG).show()
+                    setLoading(false)
+                    showError("서버 연결 실패: ${e.message}")
                 }
             }
 
@@ -73,13 +128,44 @@ class LoginActivity : AppCompatActivity() {
                 Log.d(TAG, "응답 Body: $result")
 
                 runOnUiThread {
+                    setLoading(false)
+
                     if (response.isSuccessful) {
-                        Toast.makeText(this@LoginActivity, "로그인 성공: $result", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
+                        goToHome()
                     } else {
-                        Toast.makeText(this@LoginActivity, "로그인 실패: $result", Toast.LENGTH_SHORT).show()
+                        showError("로그인 실패: $result")
                     }
                 }
             }
         })
+    }
+
+    private fun setLoading(loading: Boolean) {
+        isLoading = loading
+
+        loginButton.isEnabled = !loading
+        loginButton.text = if (loading) "로그인 중..." else "로그인"
+
+        emailEditText.isEnabled = !loading
+        passwordEditText.isEnabled = !loading
+        guestButton.isEnabled = !loading
+        btnForgot.isEnabled = !loading
+        btnSignup.isEnabled = !loading
+    }
+
+    private fun goToHome() {
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun showError(message: String) {
+        tvError.text = "⚠ $message"
+        tvError.visibility = View.VISIBLE
+    }
+
+    private fun hideError() {
+        tvError.visibility = View.GONE
     }
 }

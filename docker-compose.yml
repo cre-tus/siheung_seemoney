@@ -39,6 +39,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
+    environment:
+        JWT_SECRET: ${JWT_SECRET}
+        NAVER_CLIENT_ID: ${NAVER_CLIENT_ID}
+        NAVER_CLIENT_SECRET: ${NAVER_CLIENT_SECRET}
 volumes:
   mysql-data:

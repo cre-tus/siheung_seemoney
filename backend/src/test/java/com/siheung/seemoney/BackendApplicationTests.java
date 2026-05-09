@@ -1,4 +1,4 @@
-package com.siheung.backend;
+package com.siheung.seemoney;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

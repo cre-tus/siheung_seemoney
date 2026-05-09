@@ -18,7 +18,6 @@
         android:text="⌂\n홈"
         android:textColor="#2563EB"
         android:textSize="12sp" />
-=
     <TextView
         android:id="@+id/navAnalysis"
         android:layout_width="0dp"

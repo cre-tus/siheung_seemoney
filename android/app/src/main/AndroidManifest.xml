@@ -12,21 +12,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Siheung_Seemoney">
-        <activity
-            android:name=".ui.HomeActivity"
-
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".ui.HomeActivity" />
         <activity android:name=".ui.MyPageActivity" />
         <activity android:name=".ui.AnalysisActivity" />
         <activity android:name=".ui.BoardActivity" />
         <activity android:name=".ui.ParticipateActivity" />
-        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.SignupActivity" />
+        <activity android:name=".ui.ForgotPasswordActivity" />
+        <activity
+            android:name=".ui.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
