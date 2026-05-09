@@ -45,10 +45,17 @@ object RetrofitClient {
     }
 
     /**
-     * API 서비스 인스턴스
+     * API 서비스 인스턴스 (인증 및 활동)
      */
     val apiService: ApiService by lazy {
         retrofit.create(ApiService::class.java)
+    }
+
+    /**
+     * 재정 관련 API 서비스 인스턴스
+     */
+    val financeApiService: FinanceApiService by lazy {
+        retrofit.create(FinanceApiService::class.java)
     }
 }
 

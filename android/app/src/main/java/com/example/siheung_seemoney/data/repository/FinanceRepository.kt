@@ -24,7 +24,7 @@ class FinanceRepository {
     suspend fun getFinanceSummary(): FinanceSummaryResponse {
         return try {
             // 라이브 예산은 최신 연도(2026) 기준으로 가져옴
-            val apiData = RetrofitClient.instance.getLiveBudget(2026)
+            val apiData = RetrofitClient.financeApiService.getLiveBudget(2026)
             
             // 초당 변화량을 연간 변화량으로 역산하여 기존 UI 로직 호환
             val amountPerYear = (apiData.amountPerSecond * 365.0 * 24 * 3600).toLong()
@@ -58,7 +58,7 @@ class FinanceRepository {
      */
     suspend fun getCategoryBudgets(year: Int): List<CategoryBudget> {
         return try {
-            val apiData = RetrofitClient.instance.getBudgetSummary(year)
+            val apiData = RetrofitClient.financeApiService.getBudgetSummary(year)
             val colorResIds = listOf(
                 R.drawable.bg_progress_blue,
                 R.drawable.bg_progress_green,
