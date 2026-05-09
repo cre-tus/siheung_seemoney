@@ -8,10 +8,10 @@ import retrofit2.http.Query
 interface FinanceApiService {
     
     // 예산 요약 (라이브 타이머용)
-    @GET("/api/budgets/live")
+    @GET("budgets/live")
     suspend fun getLiveBudget(@Query("year") year: Int): BudgetLiveResponse
 
     // 분야별 카테고리 예산 요약
-    @GET("/api/budgets/summary")
+    @GET("budgets/summary")
     suspend fun getBudgetSummary(@Query("year") year: Int): BudgetSummaryResponse
 }

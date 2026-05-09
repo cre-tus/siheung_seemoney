@@ -12,9 +12,9 @@ import java.util.concurrent.TimeUnit
 object RetrofitClient {
 
     // TODO: 실제 서버 IP로 변경하세요
-    // 로컬 테스트: http://10.0.2.2:5000/api/ (Android 에뮬레이터)
-    // 실제 서버: http://YOUR_SERVER_IP:5000/api/
-    private const val BASE_URL = "http://10.0.2.2:5000/api/"
+    // 로컬 테스트: http://10.0.2.2:8081/api/ (Android 에뮬레이터)
+    // 실제 서버: http://YOUR_SERVER_IP:8081/api/
+    private const val BASE_URL = "http://10.0.2.2:8081/api/"
 
     /**
      * HTTP 로깅 인터셉터 (디버그용)
