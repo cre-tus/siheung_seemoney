@@ -10,19 +10,18 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- 프로필 카드 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_login_gradient"
             android:orientation="vertical"
-            android:padding="24dp"
-            android:background="@drawable/bg_login_gradient">
+            android:padding="24dp">
 
             <TextView
                 android:id="@+id/tvUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="진영"
+                android:text="guest"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -55,14 +54,15 @@
                         android:layout_height="wrap_content"
                         android:text="320"
                         android:textColor="#FFFFFF"
-                        android:textSize="22sp"
+                        android:textSize="24sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="포인트"
-                        android:textColor="#DBEAFE" />
+                        android:textColor="#DBEAFE"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -76,16 +76,17 @@
                         android:id="@+id/tvVote"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5"
+                        android:text="0"
                         android:textColor="#FFFFFF"
-                        android:textSize="22sp"
+                        android:textSize="24sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="투표"
-                        android:textColor="#DBEAFE" />
+                        android:textColor="#DBEAFE"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -99,28 +100,26 @@
                         android:id="@+id/tvPost"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2"
+                        android:text="0"
                         android:textColor="#FFFFFF"
-                        android:textSize="22sp"
+                        android:textSize="24sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="제안"
-                        android:textColor="#DBEAFE" />
+                        android:textColor="#DBEAFE"
+                        android:textSize="12sp" />
                 </LinearLayout>
-
             </LinearLayout>
-
         </LinearLayout>
 
-        <!-- 등급 진행도 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/bg_login_card"
             android:orientation="vertical"
             android:padding="20dp">
 
@@ -128,6 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="다음 등급까지"
+                android:textColor="#111827"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -148,14 +148,44 @@
                 android:text="실버까지 180P 남음"
                 android:textColor="#6B7280" />
 
+            <TextView
+                android:id="@+id/tvGradePath"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="브론즈 → 실버"
+                android:textColor="#6B7280"
+                android:textSize="12sp" />
         </LinearLayout>
 
-        <!-- 참여 내역 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/bg_login_card"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="등급별 혜택"
+                android:textColor="#111827"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/rewardContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_login_card"
             android:orientation="vertical"
             android:padding="20dp">
 
@@ -163,6 +193,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="참여 내역"
+                android:textColor="#111827"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -172,19 +203,41 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:orientation="vertical" />
-
         </LinearLayout>
 
-        <!-- 로그아웃 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#FFFBEB"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="포인트 적립 안내"
+                android:textColor="#92400E"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="• 투표 참여: 100P\n• 제안 작성: 100P\n• 공감하기: 50P\n• 댓글 작성: 30P"
+                android:textColor="#92400E"
+                android:textSize="14sp" />
+        </LinearLayout>
+
         <Button
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="20dp"
+            android:backgroundTint="#DC2626"
             android:text="로그아웃"
             android:textColor="#FFFFFF"
-            android:backgroundTint="#DC2626" />
-
+            android:textStyle="bold" />
     </LinearLayout>
-
 </ScrollView>

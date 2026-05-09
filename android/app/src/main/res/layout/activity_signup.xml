@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_blue_gradient">
+    android:background="@drawable/bg_login_gradient">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,17 +15,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="회원가입"
+            android:textColor="#FFFFFF"
             android:textSize="30sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"/>
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvStepText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textColor="#DBEAFE"
+            android:text="1단계: 계정 정보 입력" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_login_card"
             android:orientation="vertical"
-            android:padding="20dp"
-            android:background="@drawable/bg_white_card">
+            android:padding="22dp">
 
             <TextView
                 android:id="@+id/tvError"
@@ -33,68 +42,123 @@
                 android:background="@drawable/bg_error"
                 android:padding="12dp"
                 android:textColor="#DC2626"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
-            <EditText
-                android:id="@+id/etEmail"
+            <LinearLayout
+                android:id="@+id/layoutStep1"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="16dp"
-                android:hint="이메일"/>
-
-            <EditText
-                android:id="@+id/etPassword"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="12dp"
-                android:hint="비밀번호"
-                android:inputType="textPassword"/>
-
-            <EditText
-                android:id="@+id/etConfirmPassword"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="12dp"
-                android:hint="비밀번호 확인"
-                android:inputType="textPassword"/>
-
-            <EditText
-                android:id="@+id/etAddress"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="12dp"
-                android:hint="주소"/>
-
-            <CheckBox
-                android:id="@+id/cbTerms"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="[필수] 이용약관 동의"
-                android:layout_marginTop="16dp"/>
+                android:orientation="vertical">
 
-            <CheckBox
-                android:id="@+id/cbPrivacy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="[필수] 개인정보 처리방침 동의"/>
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_login_input"
+                    android:hint="이메일" />
 
-            <CheckBox
-                android:id="@+id/cbMarketing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="[선택] 마케팅 수신 동의"/>
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_login_input"
+                    android:hint="비밀번호"
+                    android:inputType="textPassword" />
 
-            <Button
-                android:id="@+id/btnSignup"
+                <EditText
+                    android:id="@+id/etConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_login_input"
+                    android:hint="비밀번호 확인"
+                    android:inputType="textPassword" />
+
+                <EditText
+                    android:id="@+id/etAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_login_input"
+                    android:hint="주소 입력" />
+
+                <Button
+                    android:id="@+id/btnNext"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_button_blue"
+                    android:text="다음 단계"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutStep2"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="24dp"
-                android:text="회원가입 완료"
-                android:backgroundTint="#2563EB"
-                android:textColor="#FFFFFF"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
+                <CheckBox
+                    android:id="@+id/cbAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="전체 동의" />
+
+                <CheckBox
+                    android:id="@+id/cbTerms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="[필수] 이용약관 동의" />
+
+                <CheckBox
+                    android:id="@+id/cbPrivacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="[필수] 개인정보 처리방침 동의" />
+
+                <CheckBox
+                    android:id="@+id/cbMarketing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="[선택] 마케팅 정보 수신 동의" />
+
+                <Button
+                    android:id="@+id/btnSignup"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_button_blue"
+                    android:text="회원가입 완료"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutSuccess"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="가입 완료!"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnGoLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_button_blue"
+                    android:text="로그인하러 가기"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
-
 </ScrollView>
