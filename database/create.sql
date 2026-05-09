@@ -1,24 +1,52 @@
 SET NAMES utf8mb4;
 
+-- =========================
+-- 사용자 테이블
+-- =========================
 CREATE TABLE users (
-                       user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
 
+    -- 사용자 고유 ID
+    -- 내부 DB 기본 키
+                       user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    -- 로그인 이메일
+    -- 중복 불가
                        email VARCHAR(100) NOT NULL UNIQUE,
+    -- 암호화된 비밀번호 저장
+    -- bcrypt 해시 문자열 저장 예정
                        password_hash VARCHAR(255) NOT NULL,
 
+    -- 사용자 주소
+    -- 시흥시 지역 인증 등에 사용 가능
                        address VARCHAR(255) NOT NULL,
 
+    -- 현재 보유 포인트
+    -- 활동 시 증가
                        point INT NOT NULL DEFAULT 0,
+
+    -- 사용자 등급
+    -- BRONZE / SILVER / GOLD 등
                        user_grade VARCHAR(30) NOT NULL DEFAULT 'BRONZE',
 
+    -- 총 투표 참여 횟수
                        vote_count INT NOT NULL DEFAULT 0,
+
+    -- 총 제안글 작성 횟수
                        proposal_count INT NOT NULL DEFAULT 0,
+
+    -- 랭킹 계산용 점수
+    -- 좋아요, 활동량 등 기반
                        ranking_point INT NOT NULL DEFAULT 0,
 
+    -- 사용자 권한
+    -- USER / ADMIN 등
                        role VARCHAR(20) NOT NULL DEFAULT 'USER',
 
+    -- 회원가입 시간
                        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                       updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
+    -- 사용자 정보 수정 시간
+                       updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                           ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- =========================
@@ -96,8 +124,43 @@ CREATE TABLE posts (
                        INDEX idx_posts_user_id (user_id)
 );
 
+-- =========================
+-- 유저활동 테이블
+-- =========================
+CREATE TABLE activities (
 
+    -- 활동 로그 기본 키
+                            id BIGINT AUTO_INCREMENT PRIMARY KEY,
 
+    -- 활동한 사용자
+                            user_id BIGINT NOT NULL,
+
+    -- 활동 타입
+    -- vote / post / like / comment
+                            type VARCHAR(20) NOT NULL,
+
+    -- 활동 제목
+    -- ex) "학교 급식 개선안에 공감했습니다"
+                            title VARCHAR(255) NOT NULL,
+
+    -- 포인트 변화
+                            points INT NOT NULL DEFAULT 0,
+
+    -- 연결된 게시글
+                            post_id BIGINT NULL,
+
+    -- 게시글 public UUID
+                            post_public_id CHAR(36) NULL,
+
+    -- 활동 생성 시간
+                            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    -- 유저 활동 조회 최적화
+                            INDEX idx_activities_user_id (user_id),
+
+    -- 최신 활동 조회 최적화
+                            INDEX idx_activities_created_at (created_at)
+);
 -- =========================
 -- 댓글 테이블
 -- =========================
