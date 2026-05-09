@@ -22,7 +22,7 @@ CREATE TABLE users (
 );
 
 -- =========================
--- Budget Domain
+-- Budget Domain.
 -- =========================
 
 CREATE TABLE IF NOT EXISTS budget_category (
