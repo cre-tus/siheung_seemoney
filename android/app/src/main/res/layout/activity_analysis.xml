@@ -258,6 +258,31 @@
                     android:text="BarChart 영역\n복지 / 교통 / 환경 / 기타\nMPAndroidChart 또는 Custom View 연결"
                     android:textColor="#6B7280" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_7bold"
+                    android:text="시흥시 재정 뉴스"
+                    android:textColor="#111827"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/newsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
