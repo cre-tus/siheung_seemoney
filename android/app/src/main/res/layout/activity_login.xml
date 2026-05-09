@@ -13,33 +13,46 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- 로고 & 타이틀 -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="시흥See머니"
-            android:textColor="#FFFFFF"
-            android:textSize="34sp"
-            android:textStyle="bold" />
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="시흥시 재정 현황을 한눈에"
-            android:textColor="#DBEAFE"
-            android:textSize="14sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/paperlogy_7bold"
+                android:text="시흥See머니"
+                android:textColor="#FFFFFF"
+                android:textSize="34sp"
+                android:textStyle="bold" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/paperlogy_4regular"
+                android:text="시흥시 재정 현황을 한눈에"
+                android:textColor="#DBEAFE"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- 로그인 카드 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:background="@drawable/bg_login_card"
+            android:elevation="8dp"
             android:orientation="vertical"
             android:padding="24dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/paperlogy_7bold"
                 android:gravity="center"
                 android:text="로그인"
                 android:textColor="#111827"
@@ -50,26 +63,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
+                android:fontFamily="@font/paperlogy_4regular"
                 android:gravity="center"
                 android:text="시민 참여를 위해 로그인해주세요"
                 android:textColor="#6B7280"
                 android:textSize="14sp" />
 
+            <!-- 에러 메시지 -->
             <TextView
                 android:id="@+id/tvError"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/bg_error"
+                android:fontFamily="@font/paperlogy_4regular"
                 android:padding="12dp"
                 android:textColor="#DC2626"
                 android:textSize="14sp"
                 android:visibility="gone" />
 
+            <!-- 이메일 -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:fontFamily="@font/paperlogy_5medium"
                 android:text="이메일"
                 android:textColor="#111827"
                 android:textSize="14sp" />
@@ -80,15 +98,21 @@
                 android:layout_height="52dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_login_input"
+                android:fontFamily="@font/paperlogy_4regular"
                 android:hint="example@email.com"
                 android:inputType="textEmailAddress"
                 android:paddingStart="14dp"
-                android:paddingEnd="14dp" />
+                android:paddingEnd="14dp"
+                android:textColor="#111827"
+                android:textColorHint="#9CA3AF"
+                android:textSize="15sp" />
 
+            <!-- 비밀번호 -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/paperlogy_5medium"
                 android:text="비밀번호"
                 android:textColor="#111827"
                 android:textSize="14sp" />
@@ -103,32 +127,43 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_login_input"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:hint="••••••••"
                     android:inputType="textPassword"
                     android:paddingStart="14dp"
-                    android:paddingEnd="58dp" />
+                    android:paddingEnd="60dp"
+                    android:textColor="#111827"
+                    android:textColorHint="#9CA3AF"
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/btnTogglePassword"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
+                    android:fontFamily="@font/paperlogy_5medium"
                     android:gravity="center"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:text="보기"
-                    android:textColor="#6B7280" />
+                    android:textColor="#6B7280"
+                    android:textSize="13sp" />
             </FrameLayout>
 
+            <!-- 로그인 버튼 -->
             <Button
                 android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/bg_button_blue"
+                android:fontFamily="@font/paperlogy_6semibold"
                 android:text="로그인"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
+            <!-- 추가 옵션 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -140,26 +175,76 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="비밀번호 찾기"
-                    android:textColor="#6B7280" />
+                    android:textColor="#6B7280"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/btnSignup"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:gravity="end"
                     android:text="회원가입"
-                    android:textColor="#2563EB" />
+                    android:textColor="#2563EB"
+                    android:textSize="14sp" />
             </LinearLayout>
 
+            <!-- 구분선 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#D1D5DB" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_4regular"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text="또는"
+                    android:textColor="#6B7280"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#D1D5DB" />
+            </LinearLayout>
+
+            <!-- 게스트 버튼 -->
             <Button
                 android:id="@+id/guestButton"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/bg_button_outline"
-                android:text="게스트로 둘러보기" />
+                android:fontFamily="@font/paperlogy_5medium"
+                android:text="게스트로 둘러보기"
+                android:textColor="#111827"
+                android:textSize="14sp" />
         </LinearLayout>
+
+        <!-- 푸터 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:fontFamily="@font/paperlogy_4regular"
+            android:text="© 2026 시흥시청. All rights reserved."
+            android:textColor="#DBEAFE"
+            android:textSize="12sp" />
+
     </LinearLayout>
 </ScrollView>

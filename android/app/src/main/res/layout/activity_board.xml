@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3F4F6">
+    android:background="#F3F4F6"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,17 +12,19 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- 헤더 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#7C3AED"
+            android:elevation="6dp"
             android:orientation="vertical"
             android:padding="20dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="예산 제안 게시판"
+                android:text="💬 예산 제안 게시판"
                 android:textColor="#FFFFFF"
                 android:textSize="22sp"
                 android:textStyle="bold" />
@@ -28,30 +32,33 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="8dp"
                 android:text="시흥시 예산 사용에 대한 의견을 자유롭게 나눠보세요"
                 android:textColor="#EDE9FE"
                 android:textSize="14sp" />
         </LinearLayout>
 
+        <!-- 글쓰기 버튼 -->
         <Button
             android:id="@+id/btnWrite"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="16dp"
             android:backgroundTint="#2563EB"
-            android:text="새 글쓰기"
+            android:text="+ 새 글쓰기"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
 
+        <!-- 글쓰기 폼 -->
         <LinearLayout
             android:id="@+id/writeForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_login_card"
+            android:elevation="2dp"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:padding="18dp"
             android:visibility="gone">
 
             <EditText
@@ -66,7 +73,7 @@
                 android:id="@+id/etContent"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/bg_login_input"
                 android:gravity="top"
                 android:hint="내용을 입력하세요"
@@ -75,7 +82,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -85,7 +92,8 @@
                     android:layout_weight="1"
                     android:backgroundTint="#2563EB"
                     android:text="등록"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btnCancel"
@@ -95,10 +103,12 @@
                     android:layout_weight="1"
                     android:backgroundTint="#E5E7EB"
                     android:text="취소"
-                    android:textColor="#111827" />
+                    android:textColor="#374151"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
+        <!-- 인기 글 TOP 3 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -110,7 +120,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="인기 글 TOP 3"
+                android:text="📈 인기 글 TOP 3"
                 android:textColor="#9A3412"
                 android:textSize="17sp"
                 android:textStyle="bold" />
@@ -123,11 +133,12 @@
                 android:orientation="vertical" />
         </LinearLayout>
 
+        <!-- 게시글 목록 -->
         <LinearLayout
             android:id="@+id/postContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
             android:orientation="vertical" />
 
     </LinearLayout>

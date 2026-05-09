@@ -10,10 +10,32 @@ import com.example.siheung_seemoney.R
 class MyPageActivity : AppCompatActivity() {
 
     data class ActivityItem(
+        val id: Int,
         val type: String,
         val title: String,
         val date: String,
         val points: Int
+    )
+
+    data class Reward(
+        val level: String,
+        val minPoints: Int,
+        val maxPoints: Int,
+        val benefits: String
+    )
+
+    private val rewards = listOf(
+        Reward("브론즈", 0, 499, "뉴스 열람"),
+        Reward("실버", 500, 999, "투표 참여 + 뱃지"),
+        Reward("골드", 1000, 1999, "제안 작성 + 특별 뱃지"),
+        Reward("플래티넘", 2000, 9999, "우선 답변 + 프리미엄 뱃지")
+    )
+
+    private val activities = listOf(
+        ActivityItem(1, "vote", "복지 예산 투표 참여", "2026.05.01", 100),
+        ActivityItem(2, "post", "청년 창업 지원 예산 제안 작성", "2026.05.02", 100),
+        ActivityItem(3, "like", "시청 앞 공원 재정비 공감", "2026.05.03", 50),
+        ActivityItem(4, "comment", "문화센터 야간 운영 댓글 작성", "2026.05.04", 30)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,57 +47,52 @@ class MyPageActivity : AppCompatActivity() {
         val tvPoint = findViewById<TextView>(R.id.tvPoint)
         val tvVote = findViewById<TextView>(R.id.tvVote)
         val tvPost = findViewById<TextView>(R.id.tvPost)
+
+        val tvNextPoint = findViewById<TextView>(R.id.tvNextPoint)
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
-        val tvNextGrade = findViewById<TextView>(R.id.tvNextGrade)
         val tvGradePath = findViewById<TextView>(R.id.tvGradePath)
+
         val rewardContainer = findViewById<LinearLayout>(R.id.rewardContainer)
         val historyContainer = findViewById<LinearLayout>(R.id.historyContainer)
+
         val btnLogout = findViewById<Button>(R.id.btnLogout)
 
-        val userName = "guest"
-        val grade = "브론즈"
+        // 임시 세션 데이터
+        val email = "guest@example.com"
+        val userName = email.substringBefore("@")
         val point = 320
+        val currentGrade = "브론즈"
 
-        val activities = listOf(
-            ActivityItem("vote", "복지 예산 투표 참여", "2026.05.01", 100),
-            ActivityItem("post", "청년 창업 지원 예산 제안 작성", "2026.05.02", 100),
-            ActivityItem("like", "시청 앞 공원 재정비 공감", "2026.05.03", 50),
-            ActivityItem("comment", "문화센터 야간 운영 댓글 작성", "2026.05.04", 30)
-        )
-
-        val voteCount = activities.count { it.type == "vote" }
-        val postCount = activities.count { it.type == "post" }
+        val postsCount = activities.count { it.type == "post" }
+        val votesCount = activities.count { it.type == "vote" }
 
         tvUserName.text = userName
-        tvGrade.text = "$grade 등급"
+        tvGrade.text = "$currentGrade 등급"
         tvPoint.text = point.toString()
-        tvVote.text = voteCount.toString()
-        tvPost.text = postCount.toString()
+        tvVote.text = votesCount.toString()
+        tvPost.text = postsCount.toString()
 
-        val progress = ((point.toFloat() / 499f) * 100).toInt()
+        val currentLevel = rewards.find {
+            point >= it.minPoints && point <= it.maxPoints
+        } ?: rewards.first()
+
+        val currentIndex = rewards.indexOf(currentLevel)
+        val nextLevel = rewards.getOrNull(currentIndex + 1)
+
+        val remainPoint = currentLevel.maxPoints - point
+        tvNextPoint.text = "${remainPoint}P 남음"
+
+        val progress =
+            (((point - currentLevel.minPoints).toFloat() /
+                    (currentLevel.maxPoints - currentLevel.minPoints).toFloat()) * 100).toInt()
+
         progressBar.progress = progress
-        tvNextGrade.text = "실버까지 ${499 - point}P 남음"
-        tvGradePath.text = "브론즈 → 실버"
 
-        addReward(rewardContainer, "브론즈", "0P~", "뉴스 열람", true, false)
-        addReward(rewardContainer, "실버", "500P~", "투표 참여 + 뱃지", false, false)
-        addReward(rewardContainer, "골드", "1000P~", "제안 작성 + 특별 뱃지", false, false)
-        addReward(rewardContainer, "플래티넘", "2000P~", "우선 답변 + 프리미엄 뱃지", false, false)
+        tvGradePath.text =
+            "${currentLevel.level} → ${nextLevel?.level ?: "최고 등급"}"
 
-        historyContainer.removeAllViews()
-
-        if (activities.isEmpty()) {
-            val empty = TextView(this)
-            empty.text = "참여 내역이 없습니다"
-            empty.textSize = 14f
-            empty.setTextColor(0xFF6B7280.toInt())
-            empty.setPadding(0, 20, 0, 20)
-            historyContainer.addView(empty)
-        } else {
-            activities.reversed().forEach {
-                addHistory(historyContainer, it)
-            }
-        }
+        renderRewards(rewardContainer, point, currentLevel)
+        renderActivities(historyContainer)
 
         btnLogout.setOnClickListener {
             Toast.makeText(this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show()
@@ -84,78 +101,155 @@ class MyPageActivity : AppCompatActivity() {
         }
     }
 
-    private fun addReward(
+    private fun renderRewards(
         container: LinearLayout,
-        level: String,
-        range: String,
-        benefit: String,
-        isCurrent: Boolean,
-        isPassed: Boolean
+        point: Int,
+        currentLevel: Reward
     ) {
-        val box = LinearLayout(this)
-        box.orientation = LinearLayout.VERTICAL
-        box.setPadding(20, 16, 20, 16)
+        container.removeAllViews()
 
-        val bgColor = when {
-            isCurrent -> 0xFFEFF6FF.toInt()
-            isPassed -> 0xFFF0FDF4.toInt()
-            else -> 0xFFFFFFFF.toInt()
+        for (reward in rewards) {
+            val isCurrent = reward == currentLevel
+            val isPassed = point > reward.maxPoints
+
+            val box = LinearLayout(this)
+            box.orientation = LinearLayout.VERTICAL
+            box.setPadding(18, 14, 18, 14)
+
+            box.setBackgroundColor(
+                when {
+                    isCurrent -> 0xFFEFF6FF.toInt()
+                    isPassed -> 0xFFF0FDF4.toInt()
+                    else -> 0xFFFFFFFF.toInt()
+                }
+            )
+
+            val titleRow = LinearLayout(this)
+            titleRow.orientation = LinearLayout.HORIZONTAL
+
+            val title = TextView(this)
+            title.text = reward.level
+            title.textSize = 15f
+            title.setTextColor(0xFF111827.toInt())
+            title.setTypeface(null, Typeface.BOLD)
+            title.layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+
+            val badge = TextView(this)
+            badge.text = when {
+                isCurrent -> "현재"
+                isPassed -> "달성"
+                else -> ""
+            }
+            badge.textSize = 11f
+            badge.setPadding(12, 4, 12, 4)
+            badge.setTextColor(0xFFFFFFFF.toInt())
+            badge.setBackgroundColor(
+                when {
+                    isCurrent -> 0xFF2563EB.toInt()
+                    isPassed -> 0xFF22C55E.toInt()
+                    else -> 0x00000000
+                }
+            )
+
+            titleRow.addView(title)
+            if (badge.text.isNotEmpty()) titleRow.addView(badge)
+
+            val benefit = TextView(this)
+            benefit.text = reward.benefits
+            benefit.textSize = 13f
+            benefit.setTextColor(0xFF6B7280.toInt())
+            benefit.setPadding(0, 8, 0, 0)
+
+            val range = TextView(this)
+            range.text = "${reward.minPoints}P~"
+            range.textSize = 13f
+            range.setTextColor(0xFF6B7280.toInt())
+            range.setPadding(0, 4, 0, 0)
+
+            box.addView(titleRow)
+            box.addView(benefit)
+            box.addView(range)
+
+            val params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            params.setMargins(0, 0, 0, 10)
+
+            container.addView(box, params)
         }
-        box.setBackgroundColor(bgColor)
-
-        val title = TextView(this)
-        title.text = if (isCurrent) "$level  현재" else level
-        title.textSize = 16f
-        title.setTypeface(null, Typeface.BOLD)
-        title.setTextColor(0xFF111827.toInt())
-
-        val sub = TextView(this)
-        sub.text = "$benefit  ·  $range"
-        sub.textSize = 13f
-        sub.setTextColor(0xFF6B7280.toInt())
-
-        box.addView(title)
-        box.addView(sub)
-
-        val params = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        )
-        params.setMargins(0, 0, 0, 10)
-        container.addView(box, params)
     }
 
-    private fun addHistory(container: LinearLayout, item: ActivityItem) {
-        val row = LinearLayout(this)
-        row.orientation = LinearLayout.HORIZONTAL
-        row.setPadding(0, 14, 0, 14)
+    private fun renderActivities(container: LinearLayout) {
+        container.removeAllViews()
 
-        val left = LinearLayout(this)
-        left.orientation = LinearLayout.VERTICAL
-        left.layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+        val history = activities.takeLast(10).reversed()
 
-        val title = TextView(this)
-        title.text = item.title
-        title.textSize = 15f
-        title.setTextColor(0xFF111827.toInt())
-        title.setTypeface(null, Typeface.BOLD)
+        if (history.isEmpty()) {
+            val empty = TextView(this)
+            empty.text = "참여 내역이 없습니다"
+            empty.textSize = 14f
+            empty.setTextColor(0xFF6B7280.toInt())
+            empty.setPadding(0, 24, 0, 24)
+            empty.gravity = android.view.Gravity.CENTER
+            container.addView(empty)
+            return
+        }
 
-        val date = TextView(this)
-        date.text = item.date
-        date.textSize = 12f
-        date.setTextColor(0xFF6B7280.toInt())
+        for (item in history) {
+            val row = LinearLayout(this)
+            row.orientation = LinearLayout.HORIZONTAL
+            row.setPadding(0, 14, 0, 14)
 
-        val point = TextView(this)
-        point.text = "+${item.points}P"
-        point.textSize = 15f
-        point.setTypeface(null, Typeface.BOLD)
-        point.setTextColor(0xFF2563EB.toInt())
+            val icon = TextView(this)
+            icon.text = when (item.type) {
+                "vote" -> "✓"
+                "post" -> "💬"
+                "like" -> "♥"
+                else -> "💬"
+            }
+            icon.textSize = 20f
+            icon.gravity = android.view.Gravity.CENTER
+            icon.layoutParams = LinearLayout.LayoutParams(48, 48)
 
-        left.addView(title)
-        left.addView(date)
-        row.addView(left)
-        row.addView(point)
+            val textBox = LinearLayout(this)
+            textBox.orientation = LinearLayout.VERTICAL
+            textBox.layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+            textBox.setPadding(12, 0, 12, 0)
 
-        container.addView(row)
+            val title = TextView(this)
+            title.text = item.title
+            title.textSize = 14f
+            title.setTextColor(0xFF111827.toInt())
+            title.setTypeface(null, Typeface.BOLD)
+
+            val date = TextView(this)
+            date.text = item.date
+            date.textSize = 12f
+            date.setTextColor(0xFF6B7280.toInt())
+
+            textBox.addView(title)
+            textBox.addView(date)
+
+            val point = TextView(this)
+            point.text = "+${item.points}P"
+            point.textSize = 14f
+            point.setTextColor(0xFF2563EB.toInt())
+            point.setTypeface(null, Typeface.BOLD)
+
+            row.addView(icon)
+            row.addView(textBox)
+            row.addView(point)
+
+            container.addView(row)
+        }
     }
 }
