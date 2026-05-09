@@ -1,34 +1,56 @@
 package com.siheung.seemoney.domain.auth.controller;
 
-import com.siheung.seemoney.domain.user.entity.User;
-import com.siheung.seemoney.domain.user.repository.UserRepository;
 import com.siheung.seemoney.domain.auth.dto.LoginRequest;
+import com.siheung.seemoney.domain.auth.dto.LoginResponse;
+import com.siheung.seemoney.domain.auth.dto.MeResponse;
+import com.siheung.seemoney.domain.auth.dto.SignupRequest;
+import com.siheung.seemoney.domain.auth.service.AuthService;
+import com.siheung.seemoney.domain.user.entity.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/api/auth")
+@RestController // REST API 컨트롤러
+@RequestMapping("/api/auth") // 공통 URL prefix
+@RequiredArgsConstructor // final 필드 생성자 자동 생성
 public class AuthController {
 
-    private final UserRepository userRepository;
+    // 인증 관련 비즈니스 로직
+    private final AuthService authService;
 
-    public AuthController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    // 회원가입 API
+    // POST /api/auth/signup
+    @PostMapping("/signup")
+    public String signup(
+            @RequestBody SignupRequest request
+    ) {
+
+        // 회원가입 처리
+        authService.signup(request);
+
+        // 임시 응답
+        return "회원가입 성공";
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "auth ok";
-    }
-
+    // 로그인 API
+    // POST /api/auth/login
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 이메일입니다."));
+    public LoginResponse login(
+            @RequestBody LoginRequest request
+    ) {
 
-        if (!user.getPasswordHash().equals(request.getPassword())) {
-            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
-        }
+        // 로그인 성공 시 JWT 토큰 반환
+        return authService.login(request);
+    }
 
-        return "로그인 성공";
+    // 내 정보 조회 API
+    // GET /api/auth/me
+    @GetMapping("/me")
+    public MeResponse me(
+            @AuthenticationPrincipal User user
+    ) {
+
+        // JwtAuthFilter에서 SecurityContext에 넣은 User를 사용
+        return authService.getMe(user);
     }
 }

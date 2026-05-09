@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/newsItemLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_card_border"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/newsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/paperlogy_7bold"
+        android:text="뉴스 제목"
+        android:textColor="#111827"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/newsSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/paperlogy_4regular"
+        android:maxLines="2"
+        android:text="뉴스 요약 내용입니다. 네이버 뉴스 API에서 가져온 내용을 보여줍니다."
+        android:textColor="#4B5563"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/newsDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/paperlogy_3light"
+        android:text="2024.01.01"
+        android:textColor="#9CA3AF"
+        android:textSize="12sp" />
+
+</LinearLayout>
