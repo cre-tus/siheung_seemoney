@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_app"
@@ -10,7 +12,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -126,81 +129,14 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <TextView
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCategoryBudgets"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
-                    android:fontFamily="@font/paperlogy_6semibold"
-                    android:text="● 복지\n2,093,649,200,000원                         40%  ↗ +5.2%"
-                    android:textColor="#111827"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <ProgressBar
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:layout_marginTop="8dp"
-                    android:max="100"
-                    android:progress="40"
-                    android:progressDrawable="@drawable/bg_progress_blue" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/paperlogy_6semibold"
-                    android:text="● 교통\n1,308,530,750,000원                         25%  ↗ +8.1%"
-                    android:textColor="#111827"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <ProgressBar
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:layout_marginTop="8dp"
-                    android:max="100"
-                    android:progress="25"
-                    android:progressDrawable="@drawable/bg_progress_green" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/paperlogy_6semibold"
-                    android:text="● 환경\n785,118,450,000원                           15%  ↘ -2.3%"
-                    android:textColor="#111827"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <ProgressBar
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:layout_marginTop="8dp"
-                    android:max="100"
-                    android:progress="15"
-                    android:progressDrawable="@drawable/bg_progress_orange" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/paperlogy_6semibold"
-                    android:text="● 기타\n1,046,824,600,000원                         20%  ↗ +1.5%"
-                    android:textColor="#111827"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <ProgressBar
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:layout_marginTop="8dp"
-                    android:max="100"
-                    android:progress="20"
-                    android:progressDrawable="@drawable/bg_progress_purple" />
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_category_budget" />
             </LinearLayout>
 
             <LinearLayout
@@ -220,69 +156,15 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <TextView
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lineChart"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginTop="14dp"
-                    android:background="@drawable/bg_card_border"
-                    android:fontFamily="@font/paperlogy_4regular"
-                    android:gravity="center"
-                    android:text="LineChart 영역\n2022~2026 예산/부채 변화\nMPAndroidChart 또는 Custom View 연결"
-                    android:textColor="#6B7280" />
+                    android:background="@drawable/bg_card_border" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/bg_card"
-                android:orientation="vertical"
-                android:padding="20dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/paperlogy_7bold"
-                    android:text="분야별 예산 비교"
-                    android:textColor="#111827"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_marginTop="14dp"
-                    android:background="@drawable/bg_card_border"
-                    android:fontFamily="@font/paperlogy_4regular"
-                    android:gravity="center"
-                    android:text="BarChart 영역\n복지 / 교통 / 환경 / 기타\nMPAndroidChart 또는 Custom View 연결"
-                    android:textColor="#6B7280" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/bg_card"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/paperlogy_7bold"
-                    android:text="시흥시 재정 뉴스"
-                    android:textColor="#111827"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/newsRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:nestedScrollingEnabled="false" />
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

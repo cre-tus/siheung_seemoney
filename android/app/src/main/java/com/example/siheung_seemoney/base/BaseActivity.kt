@@ -12,6 +12,8 @@ import com.example.siheung_seemoney.ui.LoginActivity
 import com.example.siheung_seemoney.ui.HomeActivity
 import com.example.siheung_seemoney.ui.MyPageActivity
 import com.example.siheung_seemoney.ui.ParticipateActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
@@ -24,6 +26,12 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
         binding = inflateBinding()
         setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         setupBottomNav()
     }
@@ -48,6 +56,33 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         binding.root.findViewById<TextView>(R.id.navMyPage)?.setOnClickListener {
             moveTo(LoginActivity::class.java)
         }
+
+        updateBottomNavUI()
+    }
+
+    private fun updateBottomNavUI() {
+        val navHome = binding.root.findViewById<TextView>(R.id.navHome) ?: return
+        val navAnalysis = binding.root.findViewById<TextView>(R.id.navAnalysis) ?: return
+        val navParticipate = binding.root.findViewById<TextView>(R.id.navParticipate) ?: return
+        val navBoard = binding.root.findViewById<TextView>(R.id.navBoard) ?: return
+        val navMyPage = binding.root.findViewById<TextView>(R.id.navMyPage) ?: return
+
+        val colorActive = android.graphics.Color.parseColor("#2563EB")
+        val colorInactive = android.graphics.Color.parseColor("#6B7280")
+
+        navHome.setTextColor(colorInactive)
+        navAnalysis.setTextColor(colorInactive)
+        navParticipate.setTextColor(colorInactive)
+        navBoard.setTextColor(colorInactive)
+        navMyPage.setTextColor(colorInactive)
+
+        when (this::class.java) {
+            HomeActivity::class.java -> navHome.setTextColor(colorActive)
+            AnalysisActivity::class.java -> navAnalysis.setTextColor(colorActive)
+            ParticipateActivity::class.java -> navParticipate.setTextColor(colorActive)
+            BoardActivity::class.java -> navBoard.setTextColor(colorActive)
+            LoginActivity::class.java, MyPageActivity::class.java -> navMyPage.setTextColor(colorActive)
+        }
     }
 
     private fun moveTo(targetActivity: Class<*>) {
@@ -56,6 +91,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         val intent = Intent(this, targetActivity)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         startActivity(intent)
+        overridePendingTransition(0, 0)
         finish()
     }
 }

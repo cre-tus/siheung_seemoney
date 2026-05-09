@@ -12,21 +12,35 @@ java {
 }
 
 dependencies {
+	// REST API 개발용
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	// JPA
+	// Spring Security: 로그인, 인증, 권한 처리
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// JPA: DB 테이블을 Java Entity로 다루기
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-	// MySQL
+	// MySQL 연결 드라이버
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
-	// validation
+	// DTO 검증용
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	// lombok
+	// JWT API
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+
+	// JWT 실제 구현체
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
+
+	// JWT에서 JSON 처리용
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+
+	// Lombok: Getter, Setter, Builder 등 자동 생성
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	// 테스트
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

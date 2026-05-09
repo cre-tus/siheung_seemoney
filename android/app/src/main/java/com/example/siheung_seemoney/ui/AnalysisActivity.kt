@@ -1,95 +1,161 @@
 package com.example.siheung_seemoney.ui
 
-import android.content.Intent
-import android.net.Uri
+import com.example.siheung_seemoney.R
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.siheung_seemoney.adapter.NewsAdapter
+import androidx.activity.viewModels
 import com.example.siheung_seemoney.base.BaseActivity
-import com.example.siheung_seemoney.data.News
-import com.example.siheung_seemoney.data.NewsApiService
 import com.example.siheung_seemoney.databinding.ActivityAnalysisBinding
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Response
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.siheung_seemoney.ui.adapter.CategoryBudgetAdapter
+import com.example.siheung_seemoney.view_model.AnalysisViewModel
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 
 /**
- * 시흥시 재정 분석 및 뉴스 화면
- * BaseActivity를 상속받아 하단 네비게이션 및 공통 바인딩 처리를 수행합니다.
+ * 분석 화면 Activity.
+ * 분야별 예산 상세 리스트(RecyclerView)와 연도별/분야별 차트(MPAndroidChart)를 표시합니다.
+ * MVVM 패턴을 적용하여 AnalysisViewModel을 관찰(Observe)합니다.
  */
 class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
 
-    private lateinit var newsAdapter: NewsAdapter
+    // ViewModel 초기화 (by viewModels() 위임을 통해 생명주기 관리)
+    private val viewModel: AnalysisViewModel by viewModels()
+    // 분야별 예산 리스트를 연결할 어댑터
+    private lateinit var adapter: CategoryBudgetAdapter
 
-    // 백엔드 API 베이스 URL (에뮬레이터 접속용)
-    private val BASE_URL = "http://10.0.2.2:8081"
-
-    // BaseActivity의 추상 메서드 구현 (바인딩 생성)
+    // ViewBinding 인플레이트
     override fun inflateBinding(): ActivityAnalysisBinding {
         return ActivityAnalysisBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // BaseActivity.onCreate()에서 이미 binding 초기화 및 setContentView가 수행됩니다.
 
         setupRecyclerView()
-        fetchNews()
+        setupCharts()
+        setupYearButtons()
+        observeViewModel()
     }
 
-    private fun setupRecyclerView() {
-        newsAdapter = NewsAdapter { news ->
-            // 뉴스 아이템 클릭 시 브라우저로 링크 열기
-            try {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(news.link))
-                startActivity(intent)
-            } catch (e: Exception) {
-                Toast.makeText(this, "링크를 열 수 없습니다.", Toast.LENGTH_SHORT).show()
+    /**
+     * 상단 연도 버튼들에 클릭 리스너를 설정합니다.
+     */
+    private fun setupYearButtons() {
+        val yearButtons = mapOf(
+            2022 to binding.year2022,
+            2023 to binding.year2023,
+            2024 to binding.year2024,
+            2025 to binding.year2025,
+            2026 to binding.year2026
+        )
+
+        yearButtons.forEach { (year, textView) ->
+            textView.setOnClickListener {
+                // 모든 버튼 스타일 초기화 (회색 배경)
+                yearButtons.values.forEach { 
+                    it.setBackgroundResource(R.drawable.bg_button_gray)
+                    it.setTextColor(Color.parseColor("#111827"))
+                }
+                // 클릭된 버튼 강조 (파란색 배경)
+                textView.setBackgroundResource(R.drawable.bg_button_blue)
+                textView.setTextColor(Color.WHITE)
+                
+                // 데이터 로드
+                viewModel.loadCategoryBudgetsForYear(year)
             }
         }
-
-        binding.newsRecyclerView.apply {
-            layoutManager = LinearLayoutManager(this@AnalysisActivity)
-            adapter = newsAdapter
-            isNestedScrollingEnabled = false // ScrollView 내에서 부드러운 스크롤을 위해 설정
-        }
     }
 
-    private fun fetchNews() {
-        // API 요청 로그 확인을 위한 인터셉터
-        val logging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+    /**
+     * RecyclerView 어댑터 초기화 및 바인딩.
+     */
+    private fun setupRecyclerView() {
+        adapter = CategoryBudgetAdapter()
+        binding.rvCategoryBudgets.adapter = adapter
+    }
+
+    /**
+     * ViewModel의 LiveData를 관찰하여 UI(어댑터)를 업데이트합니다.
+     */
+    private fun observeViewModel() {
+        viewModel.categoryBudgets.observe(this, adapter::submitList)
+    }
+
+    /**
+     * MPAndroidChart 라이브러리를 사용한 LineChart(연도별 변화)와 BarChart(분야별 비교) 설정.
+     * 현재는 UI 구성을 위한 Mock 데이터를 하드코딩하여 렌더링하고 있습니다.
+     */
+    private fun setupCharts() {
+        // 1. LineChart 설정 (연도별 예산/부채 변화)
+        val lineChart = binding.lineChart
+        lineChart.description.isEnabled = false
+        lineChart.setTouchEnabled(true)
+        lineChart.isDragEnabled = true
+        lineChart.setScaleEnabled(true)
+        lineChart.setPinchZoom(true)
+
+        val xAxisLine = lineChart.xAxis
+        xAxisLine.position = XAxis.XAxisPosition.BOTTOM
+        xAxisLine.valueFormatter = IndexAxisValueFormatter(listOf("2022", "2023", "2024", "2025", "2026"))
+        xAxisLine.granularity = 1f
+        xAxisLine.setDrawGridLines(false)
+
+        lineChart.axisRight.isEnabled = false
+
+        // Mock 데이터
+        val budgetEntries = ArrayList<Entry>()
+        budgetEntries.add(Entry(0f, 12000f))
+        budgetEntries.add(Entry(1f, 13000f))
+        budgetEntries.add(Entry(2f, 15000f))
+        budgetEntries.add(Entry(3f, 15500f))
+        budgetEntries.add(Entry(4f, 16000f))
+
+        val debtEntries = ArrayList<Entry>()
+        debtEntries.add(Entry(0f, 800f))
+        debtEntries.add(Entry(1f, 900f))
+        debtEntries.add(Entry(2f, 1100f))
+        debtEntries.add(Entry(3f, 1150f))
+        debtEntries.add(Entry(4f, 1200f))
+
+        val budgetDataSet = LineDataSet(budgetEntries, "예산").apply {
+            color = Color.parseColor("#3B82F6")
+            setCircleColor(Color.parseColor("#3B82F6"))
+            lineWidth = 2f
+            circleRadius = 4f
+            setDrawValues(false)
         }
-        val client = OkHttpClient.Builder()
-            .addInterceptor(logging)
-            .build()
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
+        val debtDataSet = LineDataSet(debtEntries, "부채").apply {
+            color = Color.parseColor("#EF4444")
+            setCircleColor(Color.parseColor("#EF4444"))
+            lineWidth = 2f
+            circleRadius = 4f
+            setDrawValues(false)
+        }
 
-        val service = retrofit.create(NewsApiService::class.java)
+        val lineData = LineData(budgetDataSet, debtDataSet)
+        lineChart.data = lineData
+        lineChart.invalidate()
 
-        service.getNews().enqueue(object : Callback<List<News>> {
-            override fun onResponse(call: Call<List<News>>, response: Response<List<News>>) {
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        newsAdapter.submitList(it)
-                    }
-                } else {
-                    Log.e("AnalysisActivity", "API Error: ${response.code()}")
+        // 차트 클릭 시 연도별 데이터 로드
+        lineChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+                val index = e?.x?.toInt() ?: return
+                val years = listOf(2022, 2023, 2024, 2025, 2026)
+                if (index in years.indices) {
+                    val selectedYear = years[index]
+                    viewModel.loadCategoryBudgetsForYear(selectedYear)
                 }
             }
 
-            override fun onFailure
+            override fun onNothingSelected() {
+                // 선택 해제 시 추가 동작 필요없음
+            }
+        })
+    }
+}
