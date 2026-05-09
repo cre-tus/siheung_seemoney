@@ -1,7 +1,7 @@
-package com.siheung.backend.domain.news.controller;
+package com.siheung.seemoney.domain.news.controller;
 
-import com.siheung.backend.domain.news.dto.NewsDto;
-import com.siheung.backend.domain.news.service.NewsService;
+import com.siheung.seemoney.domain.news.dto.NewsDto;
+import com.siheung.seemoney.domain.news.service.NewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

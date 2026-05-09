@@ -1,7 +1,7 @@
-package com.siheung.backend.domain.news.service;
+package com.siheung.seemoney.domain.news.service;
 
-import com.siheung.backend.domain.news.dto.NewsDto;
-import com.siheung.backend.infra.naver.NaverNewsClient;
+import com.siheung.seemoney.domain.news.dto.NewsDto;
+import com.siheung.seemoney.infra.naver.NaverNewsClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

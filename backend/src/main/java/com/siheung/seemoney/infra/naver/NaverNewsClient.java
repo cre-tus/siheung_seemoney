@@ -1,6 +1,6 @@
-package com.siheung.backend.infra.naver;
+package com.siheung.seemoney.infra.naver;
 
-import com.siheung.backend.domain.news.dto.NewsDto;
+import com.siheung.seemoney.domain.news.dto.NewsDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;

@@ -1,4 +1,4 @@
-package com.siheung.backend.domain.news.dto;
+package com.siheung.seemoney.domain.news.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
