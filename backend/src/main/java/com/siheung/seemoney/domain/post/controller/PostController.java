@@ -1,13 +1,11 @@
 package com.siheung.seemoney.domain.post.controller;
 
+import com.siheung.seemoney.domain.post.dto.PostRequestDto;
 import com.siheung.seemoney.domain.post.dto.PostResponseDto;
 import com.siheung.seemoney.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,6 +14,19 @@ import java.util.List;
 @RequestMapping("/api/posts")
 public class PostController {
     private final PostService postService;
+
+    /**
+     * [DB 저장 로직 설명]
+     * 1. 프론트엔드에서 아래 JSON 구조로 POST 요청을 보냄
+     *    { "title": "제목", "content": "내용" }
+     * 2. @RequestBody를 통해 JSON이 PostRequestDto 객체로 변환됨
+     * 3. 서비스(Service)에서 DTO 데이터를 Post 엔티티로 변환
+     * 4. 리포지토리(Repository)의 .save()를 통해 실제 DB(MySQL/SQLite)에 저장됨
+     */
+    @PostMapping
+    public ResponseEntity<PostResponseDto> createPost(@RequestBody PostRequestDto requestDto) {
+        return ResponseEntity.ok(postService.createPost(requestDto));
+    }
 
     /**
      * 전체 게시글 목록 조회

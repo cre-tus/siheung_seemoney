@@ -1,13 +1,11 @@
 package com.siheung.seemoney.domain.comment.controller;
 
+import com.siheung.seemoney.domain.comment.dto.CommentRequestDto;
 import com.siheung.seemoney.domain.comment.dto.CommentResponseDto;
 import com.siheung.seemoney.domain.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,6 +14,21 @@ import java.util.List;
 @RequestMapping("/api/comments")
 public class CommentController {
     private final CommentService commentService;
+
+    /**
+     * [DB 저장 로직 설명]
+     * 1. 특정 게시글 ID를 경로(PathVariable)로 받고, 댓글 내용은 Body로 받음
+     *    POST /api/comments/post/1
+     *    Body: { "content": "댓글 내용" }
+     * 2. 서비스 레이어에서 해당 postId를 가진 Post를 찾고, 새로운 Comment 객체를 생성
+     * 3. DB의 comments 테이블에 한 줄(Row)이 추가됨
+     */
+    @PostMapping("/post/{postId}")
+    public ResponseEntity<CommentResponseDto> createComment(
+            @PathVariable Long postId,
+            @RequestBody CommentRequestDto requestDto) {
+        return ResponseEntity.ok(commentService.createComment(postId, requestDto));
+    }
 
     /**
      * 특정 게시글의 댓글 목록 조회
