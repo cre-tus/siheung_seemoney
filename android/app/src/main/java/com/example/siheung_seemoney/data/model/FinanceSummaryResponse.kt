@@ -5,11 +5,11 @@ package com.example.siheung_seemoney.data.model
  */
 data class FinanceSummaryResponse(
     val totalBudget: Long,           // 전체 예산 (백만원 단위)
-    val usedBudget: Long,            // 현재까지 사용된 예산 (타이머 시작점)
-    val totalDebt: Long,             // 초기 부채
-    val currentDebt: Long,           // 현재 부채 (타이머 시작점)
-    val annualBudgetDecrease: Long,  // 연간 예산 소진량 → 초당 감소율 계산용
-    val annualDebtIncrease: Long,    // 연간 부채 증가량 → 초당 증가율 계산용
+    val usedBudget: Long,            // 표시할 기준 예산 (타이머 시작점, 백만원 단위)
+    val totalDebt: Long,             // 초기 부채 (백만원 단위)
+    val currentDebt: Long,           // 표시할 기준 부채 (타이머 시작점, 백만원 단위)
+    val annualBudgetDecrease: Long,  // 연간 예산 소진량 (백만원 단위) -> 초당 감소율 계산용
+    val annualDebtIncrease: Long,    // 연간 부채 증가량 (백만원 단위) -> 초당 증가율 계산용
     val categories: List<BudgetCategory>
 )
 

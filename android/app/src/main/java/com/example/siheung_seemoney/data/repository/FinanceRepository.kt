@@ -26,12 +26,12 @@ class FinanceRepository {
             // 라이브 예산은 최신 연도(2026) 기준으로 가져옴
             val apiData = RetrofitClient.financeApiService.getLiveBudget(2026)
             
-            // 초당 변화량을 연간 변화량으로 역산하여 기존 UI 로직 호환
-            val amountPerYear = (apiData.amountPerSecond * 365.0 * 24 * 3600).toLong()
+            // 초당 변화량을 연간 변화량으로 역산 (원 단위 -> 백만원 단위 변환 포함)
+            val amountPerYear = (apiData.amountPerSecond * 365.0 * 24 * 3600).toLong() / 1_000_000
 
             FinanceSummaryResponse(
-                totalBudget = apiData.totalAmount,
-                usedBudget = apiData.usedAmount,
+                totalBudget = apiData.totalAmount / 1_000_000,
+                usedBudget = apiData.remainingAmount / 1_000_000, // 홈 화면 타이머: 남은 예산부터 감소하도록 설정
                 totalDebt = MOCK_TOTAL_DEBT,
                 currentDebt = MOCK_CURRENT_DEBT,
                 annualBudgetDecrease = amountPerYear,
@@ -69,8 +69,8 @@ class FinanceRepository {
             apiData.categories.mapIndexed { index, dto ->
                 CategoryBudget(
                     categoryName = dto.categoryName,
-                    budget = dto.amount,
-                    percentage = (dto.ratio * 100).toInt(),
+                    budget = dto.amount, // 분석 화면 리스트는 '원' 단위 텍스트 사용
+                    percentage = dto.ratio.toInt(), // 백엔드에서 이미 0~100 사이 값으로 반환됨
                     changeRate = dto.changeRate,
                     colorResId = colorResIds[index % colorResIds.size]
                 )
