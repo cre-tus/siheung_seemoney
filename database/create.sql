@@ -163,5 +163,16 @@ CREATE TABLE post_likes (
                                 UNIQUE (post_id, user_id)
 );
 
+-- =========================
+-- 부채
+-- =========================
+
+CREATE TABLE debts (
+                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                       year INT NOT NULL UNIQUE,
+                       liability_amount BIGINT NOT NULL,
+                       unit VARCHAR(20) NOT NULL
+);
+
 
 

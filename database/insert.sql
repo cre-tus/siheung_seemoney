@@ -266,3 +266,13 @@ VALUES
              -- 작성 시간
              '2026-04-13 00:00:00'
          );
+
+-- =========================
+-- 부채
+-- =========================
+
+INSERT INTO debts (year, liability_amount, unit) VALUES (2022, 260710000000, '원');
+INSERT INTO debts (year, liability_amount, unit) VALUES (2023, 184712000000, '원');
+INSERT INTO debts (year, liability_amount, unit) VALUES (2024, 335000000000, '원');
+INSERT INTO debts (year, liability_amount, unit) VALUES (2025, 190300000000, '원');
+INSERT INTO debts (year, liability_amount, unit) VALUES (2026, 152300000000, '원');
