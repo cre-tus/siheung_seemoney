@@ -78,25 +78,38 @@ class AuthRepository(context: Context) {
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
     /**
-     * 회원가입
+     * 회원가입 RetrofitClient 이용
      */
-    suspend fun signup(email: String, password: String, address: String): Result<User> {
-        return try {
-            val response = apiService.signup(SignupRequest(email, password, address))
+    suspend fun signup(
+            email: String,
+            password: String,
+            address: String
+        ): Result<String> {
 
-            if (response.isSuccessful && response.body() != null) {
-                val authResponse = response.body()!!
-                saveToken(authResponse.token)
-                saveUserInfo(authResponse.user)
-                Result.success(authResponse.user)
-            } else {
-                val errorMsg = response.errorBody()?.string() ?: "회원가입 실패"
-                Result.failure(Exception(errorMsg))
+            return try {
+
+                val response =
+                    apiService.signup(
+                        SignupRequest(email, password, address)
+                    )
+
+                if (response.isSuccessful && response.body() != null) {
+
+                    Result.success(response.body()!!)
+
+                } else {
+
+                    val errorMsg =
+                        response.errorBody()?.string() ?: "회원가입 실패"
+
+                    Result.failure(Exception(errorMsg))
+                }
+
+            } catch (e: Exception) {
+
+                Result.failure(e)
             }
-        } catch (e: Exception) {
-            Result.failure(e)
         }
-    }
 
     /**
      * 로그인
