@@ -46,10 +46,11 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvBudgetUnit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/paperlogy_4regular"
-                        android:text="단위: 백만원"
+                        android:text="0.0조원"
                         android:textColor="#DBEAFE"
                         android:textSize="11sp" />
                 </LinearLayout>
@@ -60,9 +61,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/paperlogy_7bold"
-                    android:text="1,600,000"
+                    android:text="1,600,000,000,000"
                     android:textColor="#FFFFFF"
-                    android:textSize="27sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -102,10 +103,11 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvDebtUnit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/paperlogy_4regular"
-                        android:text="단위: 백만원"
+                        android:text="0.0조원"
                         android:textColor="#FEE2E2"
                         android:textSize="11sp" />
                 </LinearLayout>
@@ -116,9 +118,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/paperlogy_7bold"
-                    android:text="120,000"
+                    android:text="1,200,000,000,000"
                     android:textColor="#FFFFFF"
-                    android:textSize="27sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -151,38 +153,13 @@
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/news1"
+                <!-- 동적 뉴스 리스트 (RecyclerView) -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvNews"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="320dp"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/bg_card_border"
-                    android:fontFamily="@font/paperlogy_5medium"
-                    android:padding="12dp"
-                    android:text="시흥시 교통 예산 증가\n2026.04.15"
-                    android:textColor="#111827" />
-
-                <TextView
-                    android:id="@+id/news2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_card_border"
-                    android:fontFamily="@font/paperlogy_5medium"
-                    android:padding="12dp"
-                    android:text="복지 예산 확대 논의\n2026.04.14"
-                    android:textColor="#111827" />
-
-                <TextView
-                    android:id="@+id/news3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_card_border"
-                    android:fontFamily="@font/paperlogy_5medium"
-                    android:padding="12dp"
-                    android:text="환경 개선 사업 승인\n2026.04.13"
-                    android:textColor="#111827" />
+                    android:overScrollMode="never" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
