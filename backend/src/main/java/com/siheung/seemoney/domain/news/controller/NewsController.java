@@ -21,8 +21,18 @@ public class NewsController {
     private final NewsService newsService;
 
     /**
-     * 시흥시 재정/경제 뉴스 리스트 조회
+     * 시흥시 재정/경제 뉴스 리스트 조회 (네이버 실시간 연동)
      * GET /api/v1/news
+     * 
+     * [응답 JSON 예시]
+     * [
+     *   {
+     *     "title": "시흥시 예산 확정...",
+     *     "link": "https://news.naver.com/...",
+     *     "summary": "뉴스 본문 요약...",
+     *     "pubDate": "Wed, 13 May 2026 10:00:00 +0900"
+     *   }
+     * ]
      */
     @GetMapping
     public ResponseEntity<List<NewsDto.NewsResponse>> getNews() {
