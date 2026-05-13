@@ -1,6 +1,7 @@
 package com.example.siheung_seemoney.ui
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -29,6 +30,20 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var btnForgot: TextView
     private lateinit var btnSignup: TextView
 
+    // =========================
+    // 추가된 부분 시작
+    // 아이디 저장 + 로그인 유지
+    // =========================
+
+    private lateinit var cbRememberId: CheckBox
+    private lateinit var cbKeepLogin: CheckBox
+
+    private lateinit var prefs: SharedPreferences
+
+    // =========================
+    // 추가된 부분 끝
+    // =========================
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -42,53 +57,108 @@ class LoginActivity : AppCompatActivity() {
         btnForgot = findViewById(R.id.btnForgot)
         btnSignup = findViewById(R.id.btnSignup)
 
+        // =========================
+        // 추가된 부분 시작
+        // 체크박스 연결
+        // =========================
+
+        cbRememberId = findViewById(R.id.cbRememberId)
+        cbKeepLogin = findViewById(R.id.cbKeepLogin)
+
+        prefs = getSharedPreferences(
+            "login_pref",
+            MODE_PRIVATE
+        )
+
+        loadSavedLoginInfo()
+
+        // =========================
+        // 추가된 부분 끝
+        // =========================
+
         btnTogglePassword.setOnClickListener {
+
             showPassword = !showPassword
 
             if (showPassword) {
-                passwordEditText.inputType = InputType.TYPE_CLASS_TEXT
-                btnTogglePassword.text = "숨김"
-            } else {
+
                 passwordEditText.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                    InputType.TYPE_CLASS_TEXT
+
+                btnTogglePassword.text = "숨김"
+
+            } else {
+
+                passwordEditText.inputType =
+                    InputType.TYPE_CLASS_TEXT or
+                            InputType.TYPE_TEXT_VARIATION_PASSWORD
+
                 btnTogglePassword.text = "보기"
             }
 
-            passwordEditText.setSelection(passwordEditText.text.length)
+            passwordEditText.setSelection(
+                passwordEditText.text.length
+            )
         }
 
         loginButton.setOnClickListener {
+
             handleLogin()
         }
 
         btnForgot.setOnClickListener {
-            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+
+            startActivity(
+                Intent(
+                    this,
+                    ForgotPasswordActivity::class.java
+                )
+            )
         }
 
         btnSignup.setOnClickListener {
-            startActivity(Intent(this, SignupActivity::class.java))
+
+            startActivity(
+                Intent(
+                    this,
+                    SignupActivity::class.java
+                )
+            )
         }
 
         guestButton.setOnClickListener {
+
             goToHome()
         }
     }
 
     private fun handleLogin() {
+
         hideError()
 
-        val email = emailEditText.text.toString().trim()
-        val password = passwordEditText.text.toString().trim()
+        val email =
+            emailEditText.text.toString().trim()
+
+        val password =
+            passwordEditText.text.toString().trim()
 
         if (email.isEmpty() || password.isEmpty()) {
-            showError("이메일과 비밀번호를 모두 입력해주세요")
+
+            showError(
+                "이메일과 비밀번호를 모두 입력해주세요"
+            )
+
             return
         }
 
         login(email, password)
     }
 
-    private fun login(email: String, password: String) {
+    private fun login(
+        email: String,
+        password: String
+    ) {
+
         setLoading(true)
 
         val json = """
@@ -99,7 +169,8 @@ class LoginActivity : AppCompatActivity() {
         """.trimIndent()
 
         val requestBody = RequestBody.create(
-            "application/json; charset=utf-8".toMediaType(),
+            "application/json; charset=utf-8"
+                .toMediaType(),
             json
         )
 
@@ -111,61 +182,192 @@ class LoginActivity : AppCompatActivity() {
         Log.d(TAG, "요청 URL: ${request.url}")
         Log.d(TAG, "요청 Body: $json")
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e(TAG, "서버 연결 실패", e)
+        client.newCall(request)
+            .enqueue(object : Callback {
 
-                runOnUiThread {
-                    setLoading(false)
-                    showError("서버 연결 실패: ${e.message}")
-                }
-            }
+                override fun onFailure(
+                    call: Call,
+                    e: IOException
+                ) {
 
-            override fun onResponse(call: Call, response: Response) {
-                val result = response.body?.string()
+                    Log.e(TAG, "서버 연결 실패", e)
 
-                Log.d(TAG, "응답 코드: ${response.code}")
-                Log.d(TAG, "응답 Body: $result")
+                    runOnUiThread {
 
-                runOnUiThread {
-                    setLoading(false)
+                        setLoading(false)
 
-                    if (response.isSuccessful) {
-                        Toast.makeText(this@LoginActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
-                        goToHome()
-                    } else {
-                        showError("로그인 실패: $result")
+                        showError(
+                            "서버 연결 실패: ${e.message}"
+                        )
                     }
                 }
-            }
-        })
+
+                override fun onResponse(
+                    call: Call,
+                    response: Response
+                ) {
+
+                    val result =
+                        response.body?.string()
+
+                    Log.d(
+                        TAG,
+                        "응답 코드: ${response.code}"
+                    )
+
+                    Log.d(
+                        TAG,
+                        "응답 Body: $result"
+                    )
+
+                    runOnUiThread {
+
+                        setLoading(false)
+
+                        if (response.isSuccessful) {
+
+                            // =========================
+                            // 추가된 부분 시작
+                            // 로그인 정보 저장
+                            // =========================
+
+                            saveLoginInfo(email)
+
+                            // =========================
+                            // 추가된 부분 끝
+                            // =========================
+
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "로그인 성공",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            goToHome()
+
+                        } else {
+
+                            showError(
+                                "로그인 실패: $result"
+                            )
+                        }
+                    }
+                }
+            })
     }
 
-    private fun setLoading(loading: Boolean) {
+    // =========================
+    // 추가된 부분 시작
+    // 아이디 저장 / 로그인 유지
+    // =========================
+
+    private fun saveLoginInfo(email: String) {
+
+        val editor = prefs.edit()
+
+        if (cbRememberId.isChecked) {
+
+            editor.putString(
+                "saved_email",
+                email
+            )
+
+        } else {
+
+            editor.remove("saved_email")
+        }
+
+        editor.putBoolean(
+            "keep_login",
+            cbKeepLogin.isChecked
+        )
+
+        editor.apply()
+    }
+
+    private fun loadSavedLoginInfo() {
+
+        val savedEmail =
+            prefs.getString(
+                "saved_email",
+                ""
+            )
+
+        val keepLogin =
+            prefs.getBoolean(
+                "keep_login",
+                false
+            )
+
+        emailEditText.setText(savedEmail)
+
+        cbRememberId.isChecked =
+            savedEmail!!.isNotEmpty()
+
+        cbKeepLogin.isChecked =
+            keepLogin
+    }
+
+    // =========================
+    // 추가된 부분 끝
+    // =========================
+
+    private fun setLoading(
+        loading: Boolean
+    ) {
+
         isLoading = loading
 
         loginButton.isEnabled = !loading
-        loginButton.text = if (loading) "로그인 중..." else "로그인"
 
-        emailEditText.isEnabled = !loading
-        passwordEditText.isEnabled = !loading
-        guestButton.isEnabled = !loading
-        btnForgot.isEnabled = !loading
-        btnSignup.isEnabled = !loading
+        loginButton.text =
+            if (loading)
+                "로그인 중..."
+            else
+                "로그인"
+
+        emailEditText.isEnabled =
+            !loading
+
+        passwordEditText.isEnabled =
+            !loading
+
+        guestButton.isEnabled =
+            !loading
+
+        btnForgot.isEnabled =
+            !loading
+
+        btnSignup.isEnabled =
+            !loading
     }
 
     private fun goToHome() {
-        val intent = Intent(this, HomeActivity::class.java)
+
+        val intent =
+            Intent(
+                this,
+                HomeActivity::class.java
+            )
+
         startActivity(intent)
+
         finish()
     }
 
-    private fun showError(message: String) {
+    private fun showError(
+        message: String
+    ) {
+
         tvError.text = "⚠ $message"
-        tvError.visibility = View.VISIBLE
+
+        tvError.visibility =
+            View.VISIBLE
     }
 
     private fun hideError() {
-        tvError.visibility = View.GONE
+
+        tvError.visibility =
+            View.GONE
     }
 }

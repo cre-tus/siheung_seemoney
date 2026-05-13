@@ -12,9 +12,24 @@
         android:orientation="vertical"
         android:padding="24dp">
 
+        <!-- 로그인으로 돌아가기 버튼 추가 -->
+
+        <TextView
+            android:id="@+id/btnBackLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@android:drawable/ic_media_previous"
+            android:drawablePadding="6dp"
+            android:fontFamily="@font/paperlogy_5medium"
+            android:paddingBottom="10dp"
+            android:text="로그인으로 돌아가기"
+            android:textColor="#DBEAFE"
+            android:textSize="13sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/paperlogy_7bold"
             android:text="회원가입"
             android:textColor="#FFFFFF"
             android:textSize="30sp"
@@ -25,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
+            android:fontFamily="@font/paperlogy_4regular"
             android:text="1단계: 계정 정보 입력"
             android:textColor="#DBEAFE"
             android:textSize="12sp" />
@@ -42,6 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_error"
+                android:fontFamily="@font/paperlogy_4regular"
                 android:padding="12dp"
                 android:textColor="#DC2626"
                 android:visibility="gone" />
@@ -57,6 +74,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="이메일 *"
                     android:textStyle="bold" />
 
@@ -66,6 +84,7 @@
                     android:layout_height="52dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bg_login_input"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:hint="example@email.com"
                     android:inputType="textEmailAddress"
                     android:maxLength="100"
@@ -75,6 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="비밀번호 *"
                     android:textStyle="bold" />
 
@@ -88,6 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/bg_login_input"
+                        android:fontFamily="@font/paperlogy_4regular"
                         android:hint="••••••••"
                         android:inputType="textPassword"
                         android:paddingStart="14dp"
@@ -98,6 +119,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="end"
+                        android:fontFamily="@font/paperlogy_5medium"
                         android:gravity="center"
                         android:paddingHorizontal="14dp"
                         android:text="보기"
@@ -114,6 +136,7 @@
                         android:id="@+id/tvLength"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/paperlogy_4regular"
                         android:text="✗ 8자 이상"
                         android:textSize="12sp" />
 
@@ -121,6 +144,7 @@
                         android:id="@+id/tvNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/paperlogy_4regular"
                         android:text="✗ 숫자 포함"
                         android:textSize="12sp" />
 
@@ -128,6 +152,7 @@
                         android:id="@+id/tvSpecial"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/paperlogy_4regular"
                         android:text="✗ 특수문자 포함"
                         android:textSize="12sp" />
 
@@ -135,6 +160,7 @@
                         android:id="@+id/tvUpper"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/paperlogy_4regular"
                         android:text="✗ 영문 대문자 포함"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -143,6 +169,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="비밀번호 확인 *"
                     android:textStyle="bold" />
 
@@ -156,6 +183,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/bg_login_input"
+                        android:fontFamily="@font/paperlogy_4regular"
                         android:hint="••••••••"
                         android:inputType="textPassword"
                         android:paddingStart="14dp"
@@ -166,6 +194,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="end"
+                        android:fontFamily="@font/paperlogy_5medium"
                         android:gravity="center"
                         android:paddingHorizontal="14dp"
                         android:text="보기"
@@ -176,6 +205,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="주소 *"
                     android:textStyle="bold" />
 
@@ -191,6 +221,7 @@
                     android:layout_height="52dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/bg_login_input"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:hint="상세 주소 입력"
                     android:maxLength="255"
                     android:paddingHorizontal="14dp" />
@@ -206,6 +237,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/paperlogy_4regular"
                         android:text="가입 시 자동 설정 값"
                         android:textColor="#1D4ED8"
                         android:textStyle="bold" />
@@ -214,7 +246,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="포인트: 0P\n등급: 브론즈\n투표 수: 0\n제안 수: 0\n권한: USER"
+                        android:fontFamily="@font/paperlogy_4regular"
+                        android:text="포인트: 0P&#10;등급: 브론즈&#10;투표 수: 0&#10;제안 수: 0&#10;권한: USER"
                         android:textColor="#1E3A8A"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -225,6 +258,7 @@
                     android:layout_height="52dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/bg_button_blue"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="다음 단계"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" />
@@ -243,24 +277,28 @@
                     android:id="@+id/cbAll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="전체 동의" />
 
                 <CheckBox
                     android:id="@+id/cbTerms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="[필수] 이용약관 동의" />
 
                 <CheckBox
                     android:id="@+id/cbPrivacy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="[필수] 개인정보 처리방침 동의" />
 
                 <CheckBox
                     android:id="@+id/cbMarketing"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="[선택] 마케팅 정보 수신 동의" />
 
                 <LinearLayout
@@ -274,6 +312,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/paperlogy_4regular"
                         android:text="📋 개인정보 수집 항목"
                         android:textStyle="bold" />
 
@@ -281,19 +320,44 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="• 이메일 (email)\n• 주소 (address)\n• 가입일시 (created_at)\n• 수정일시 (updated_at)"
+                        android:fontFamily="@font/paperlogy_4regular"
+                        android:text="• 이메일 (email)&#10;• 주소 (address)&#10;• 가입일시 (created_at)&#10;• 수정일시 (updated_at)"
                         android:textSize="12sp" />
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnSignup"
+                <!-- STEP2 이전 단계 버튼 추가 -->
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/bg_button_blue"
-                    android:text="회원가입 완료"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnBack"
+                        android:layout_width="0dp"
+                        android:layout_height="52dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_login_input"
+                        android:fontFamily="@font/paperlogy_4regular"
+                        android:text="이전 단계"
+                        android:textColor="#374151"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnSignup"
+                        android:layout_width="0dp"
+                        android:layout_height="52dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_button_blue"
+                        android:fontFamily="@font/paperlogy_4regular"
+                        android:text="회원가입 완료"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <!-- SUCCESS -->
@@ -309,6 +373,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="가입 완료!"
                     android:textColor="#111827"
                     android:textSize="28sp"
@@ -318,6 +383,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="시흥See머니 회원이 되신 걸 환영합니다 🎉"
                     android:textColor="#6B7280" />
 
@@ -332,7 +398,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="회원 ID: #1\n등급: 브론즈\n포인트: 0P\n권한: USER"
+                        android:fontFamily="@font/paperlogy_4regular"
+                        android:text="회원 ID: #1&#10;등급: 브론즈&#10;포인트: 0P&#10;권한: USER"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -342,6 +409,7 @@
                     android:layout_height="52dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/bg_button_blue"
+                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="로그인하러 가기"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" />
@@ -349,4 +417,5 @@
 
         </LinearLayout>
     </LinearLayout>
+
 </ScrollView>
