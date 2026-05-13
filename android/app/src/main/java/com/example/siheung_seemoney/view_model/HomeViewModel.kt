@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.siheung_seemoney.data.News
 import com.example.siheung_seemoney.data.repository.FinanceRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -33,8 +34,15 @@ class HomeViewModel : ViewModel() {
     private val _currentDebt = MutableLiveData<Long>()
     val currentDebt: LiveData<Long> = _currentDebt
 
-    // 1초 간격으로 값 업데이트
+    // 실시간 뉴스 리스트
+    private val _newsList = MutableLiveData<List<News>>()
+    val newsList: LiveData<List<News>> = _newsList
+
+    // 1초 간격으로 값 업데이트 (타이머)
     private val TICK_INTERVAL_MS = 1_000L
+
+    // 1분 간격으로 뉴스 업데이트
+    private val NEWS_POLLING_INTERVAL_MS = 60_000L
 
     // 1년의 총 초수 (365일 * 24시간 * 3600초)
     private val SECONDS_IN_YEAR = 365.0 * 24 * 3600
@@ -48,6 +56,15 @@ class HomeViewModel : ViewModel() {
     private val SIMULATION_SPEED = 200.0
 
     private var timerJob: Job? = null
+    private var newsJob: Job? = null
+
+    /**
+     * 재정 타이머 및 뉴스 폴링을 시작한다. 화면 진입 시 1회 호출.
+     */
+    fun startHomeData() {
+        startFinanceTimer()
+        startNewsPolling()
+    }
 
     /**
      * 재정 타이머를 시작한다. 화면 진입 시 1회 호출.
@@ -89,9 +106,31 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    /**
+     * 1분 주기로 실시간 뉴스를 가져온다.
+     */
+    private fun startNewsPolling() {
+        newsJob?.cancel()
+        newsJob = viewModelScope.launch {
+            while (true) {
+                try {
+                    val news = repository.getNews()
+                    // 이전 데이터와 다를 경우에만 UI 업데이트
+                    if (news != _newsList.value) {
+                        _newsList.postValue(news)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                delay(NEWS_POLLING_INTERVAL_MS)
+            }
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
-        // 화면 종료 시 타이머 자동 정리 (메모리 릭 방지)
+        // 화면 종료 시 모든 코루틴 중지
         timerJob?.cancel()
+        newsJob?.cancel()
     }
 }

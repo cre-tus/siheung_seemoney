@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.siheung_seemoney.data.News
 import com.example.siheung_seemoney.databinding.ItemNewsBinding
+import com.example.siheung_seemoney.util.DateUtils
 
 /**
  * 뉴스 목록을 표시하기 위한 어댑터
@@ -35,8 +36,8 @@ class NewsAdapter(private val onItemClick: (News) -> Unit) :
 
         fun bind(news: News) {
             binding.newsTitle.text = news.title
-            binding.newsSummary.text = news.summary
-            binding.newsDate.text = news.pubDate
+            binding.newsTimeAgo.text = DateUtils.getTimeAgo(news.pubDate)
+            binding.newsDate.text = DateUtils.formatToDisplayDate(news.pubDate)
 
             binding.root.setOnClickListener {
                 onItemClick(news)

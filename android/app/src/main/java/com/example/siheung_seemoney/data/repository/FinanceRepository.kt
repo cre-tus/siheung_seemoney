@@ -1,5 +1,6 @@
 package com.example.siheung_seemoney.data.repository
 
+import com.example.siheung_seemoney.data.News
 import com.example.siheung_seemoney.data.model.BudgetLiveResponse
 import com.example.siheung_seemoney.data.model.BudgetSummaryResponse
 import com.example.siheung_seemoney.data.model.FinanceSummaryResponse
@@ -16,9 +17,10 @@ class FinanceRepository {
 
     companion object {
         // 부채(Debt) 관련 임시 가짜 데이터 (API 미구현 상태)
-        const val MOCK_TOTAL_DEBT = 120_000L
-        const val MOCK_CURRENT_DEBT = 125_000L
-        const val MOCK_ANNUAL_DEBT_INCREASE = 50_000L
+        // 원 단위로 변경 (조 단위 표시를 위해 규모 상향)
+        const val MOCK_TOTAL_DEBT = 1_200_000_000_000L  // 1.2조원
+        const val MOCK_CURRENT_DEBT = 1_250_000_000_000L
+        const val MOCK_ANNUAL_DEBT_INCREASE = 50_000_000_000L // 연간 500억원 증가
     }
 
     suspend fun getFinanceSummary(): FinanceSummaryResponse {
@@ -26,12 +28,12 @@ class FinanceRepository {
             // 라이브 예산은 최신 연도(2026) 기준으로 가져옴
             val apiData = RetrofitClient.financeApiService.getLiveBudget(2026)
             
-            // 초당 변화량을 연간 변화량으로 역산 (원 단위 -> 백만원 단위 변환 포함)
-            val amountPerYear = (apiData.amountPerSecond * 365.0 * 24 * 3600).toLong() / 1_000_000
+            // 초당 변화량을 연간 변화량으로 역산 (원 단위 유지)
+            val amountPerYear = (apiData.amountPerSecond * 365.0 * 24 * 3600).toLong()
 
             FinanceSummaryResponse(
-                totalBudget = apiData.totalAmount / 1_000_000,
-                usedBudget = apiData.remainingAmount / 1_000_000, // 홈 화면 타이머: 남은 예산부터 감소하도록 설정
+                totalBudget = apiData.totalAmount,
+                usedBudget = apiData.remainingAmount, // 홈 화면 타이머: 남은 예산부터 감소하도록 설정
                 totalDebt = MOCK_TOTAL_DEBT,
                 currentDebt = MOCK_CURRENT_DEBT,
                 annualBudgetDecrease = amountPerYear,
@@ -78,6 +80,18 @@ class FinanceRepository {
         } catch (e: Exception) {
             e.printStackTrace()
             // 에러 시 빈 리스트 반환하여 시각적으로 데이터가 비었음을 표시
+            emptyList()
+        }
+    }
+
+    /**
+     * 실시간 재정 뉴스를 가져옵니다.
+     */
+    suspend fun getNews(): List<News> {
+        return try {
+            RetrofitClient.newsApiService.getNews()
+        } catch (e: Exception) {
+            e.printStackTrace()
             emptyList()
         }
     }
