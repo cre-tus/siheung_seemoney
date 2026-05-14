@@ -14,13 +14,13 @@ import kotlinx.coroutines.launch
  * 홈 화면의 재정 타이머를 관리하는 ViewModel.
  *
  * [동작 방식]
- * 1. Repository에서 기준 데이터를 1회 가져옴 (지금은 MOCK, 나중에 API)
+ * 1. Repository에서 기준 데이터를 1회 가져옴 (예산: DB, 부채: 백엔드 계산값)
  * 2. 연간 변화량을 초당 변화량으로 환산
- * 3. 1초마다 예산은 감소, 부채는 증가시켜 LiveData로 전달
+ * 3. 1초마다 예산은 감소, 부채도 감소(상환 시나리오)시켜 LiveData로 전달
  *
- * [API 연동 후 변경점]
- * - Repository.getFinanceSummary() 가 실제 API 호출로 교체되면
- *   이 ViewModel은 수정 없이 그대로 동작함.
+ * [데이터 소스]
+ * - 예산: GET /api/budgets/live?year=2026 (DB 기반)
+ * - 부채: GET /api/debts/realtime/2026 (2025년말~2026년말 상환 시나리오)
  */
 class HomeViewModel : ViewModel() {
 
@@ -48,10 +48,10 @@ class HomeViewModel : ViewModel() {
     private val SECONDS_IN_YEAR = 365.0 * 24 * 3600
 
     /**
-     * 데모 배속 배율. 실제 속도(1.0)로 하면 백만원 단위에서 변화가 눈에 안 보임.
-     * - 1.0   = 실제 속도 (백만원 단위에서 약 20초에 1 감소)
-     * - 200.0 = 200배속 (약 0.1초에 1 감소, 데모용)
-     * API 연동 후 실제 데이터 단위(원)로 바꾸면 1.0으로 돌려놓을 것.
+     * 데모 배속 배율.
+     * - 1.0 = 실제 속도
+     * - 200.0 = 200배속 (데모용: 변화를 눈으로 확인 가능)
+     * 실제 서비스 시 1.0으로 변경할 것.
      */
     private val SIMULATION_SPEED = 200.0
 
@@ -94,9 +94,10 @@ class HomeViewModel : ViewModel() {
                 // 타이머 루프 시작
                 while (true) {
                     delay(TICK_INTERVAL_MS)
-                    // 예산은 0 아래로 내려가지 않음 (음수 방지)
+                    // 예산: 0 아래로 내려가지 않음
                     budget = maxOf(0.0, budget - budgetDecreasePerTick)
-                    debt   += debtIncreasePerTick
+                    // 부채: 시흥시 상환 시나리오 → 감소
+                    debt = maxOf(0.0, debt - debtIncreasePerTick)
                     _currentBudget.value = budget.toLong()
                     _currentDebt.value   = debt.toLong()
                 }

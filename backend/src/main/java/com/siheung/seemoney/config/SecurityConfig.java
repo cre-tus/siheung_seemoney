@@ -44,6 +44,7 @@ public class SecurityConfig {
 
                                                 // 예산 API는 인증 없이 허용 (프론트 테스트용)
                                                 .requestMatchers("/api/budgets/**").permitAll()
+                                                .requestMatchers("/api/debts/**").permitAll()
                                                 .requestMatchers("/api/v1/news/**").permitAll()
 
                                                 // 나머지는 로그인 필요

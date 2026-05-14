@@ -97,7 +97,7 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/paperlogy_5medium"
-                        android:text="↗  부채 (Debt)"
+                        android:text="↘  부채 (Debt)"
                         android:textColor="#FEE2E2"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -128,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/paperlogy_4regular"
-                    android:text="지속적으로 증가 중..."
+                    android:text="서서히 감소 중..."
                     android:textColor="#FEE2E2"
                     android:textSize="12sp" />
             </LinearLayout>

@@ -60,7 +60,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 endValue = budget,
                 duration = 950L
             )
-            // 우측 상단 함축적 표시 (조 단위)
+            // 우측 상단: 조 단위 (예산은 수조 원대)
             val trillionBudget = budget / 1_000_000_000_000.0
             binding.tvBudgetUnit.text = String.format("%.1f조원", trillionBudget)
             
@@ -73,9 +73,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 endValue = debt,
                 duration = 950L
             )
-            // 우측 상단 함축적 표시 (조 단위)
-            val trillionDebt = debt / 1_000_000_000_000.0
-            binding.tvDebtUnit.text = String.format("%.1f조원", trillionDebt)
+            // 우측 상단: 억 단위 (부채는 약 1,700~1,900억 원대)
+            val hundredMillionDebt = debt / 100_000_000.0
+            binding.tvDebtUnit.text = String.format("%.0f억원", hundredMillionDebt)
             
             prevDebt = debt
         }
