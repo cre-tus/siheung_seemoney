@@ -3,6 +3,35 @@ SET character_set_client = utf8mb4;
 SET character_set_connection = utf8mb4;
 SET character_set_results = utf8mb4;
 
+/* 초기 유저 데이터 */
+INSERT INTO users (
+    user_id,
+    email,
+    password,
+    address,
+    points,
+    user_grade,
+    vote_count,
+    post_count,
+    comment_count,
+    role,
+    created_at,
+    updated_at
+) VALUES (
+             1,
+             'test@test.com',
+             '$2a$10$xbNiuFhPb0nCQ.kdPjadvuJXtjcu98sMHaajIWWNlh/yo4gfwTsUe',
+             '경기도 시흥시 대야동',
+             0,
+             'BRONZE',
+             0,
+             0,
+             0,
+             'USER',
+             '2026-05-14 18:11:44',
+             '2026-05-14 18:11:44'
+         );
+
 INSERT INTO budget_category (id, name, display_order) VALUES
     (1, '복지·보건', 1),
     (2, '교통·도시개발', 2),
