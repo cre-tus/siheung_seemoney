@@ -19,6 +19,7 @@
         <activity android:name=".ui.ParticipateActivity" />
         <activity android:name=".ui.SignupActivity" />
         <activity android:name=".ui.ForgotPasswordActivity" />
+        <activity android:name=".ui.news.NewsDetailActivity" />
         <activity
             android:name=".ui.LoginActivity"
             android:exported="true">

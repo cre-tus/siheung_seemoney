@@ -6,6 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
+import com.example.siheung_seemoney.data.NewsApiService
 
 /**
  * Retrofit 클라이언트 싱글톤
@@ -58,6 +59,13 @@ object RetrofitClient {
      */
     val financeApiService: FinanceApiService by lazy {
         retrofit.create(FinanceApiService::class.java)
+    }
+
+    /**
+     * 뉴스 관련 API 서비스 인스턴스
+     */
+    val newsApiService: NewsApiService by lazy {
+        retrofit.create(NewsApiService::class.java)
     }
 }
 

@@ -41,7 +41,7 @@ public class NaverNewsClient {
                 .queryParam("query", query)
                 .queryParam("display", 10)
                 .queryParam("start", 1)
-                .queryParam("sort", "sim")
+                .queryParam("sort", "date")
                 .encode(StandardCharsets.UTF_8)
                 .build()
                 .toUri();

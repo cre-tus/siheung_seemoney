@@ -32,21 +32,27 @@ public class User {
     private String address;
 
     // 사용자 포인트
+    @Builder.Default
     private Integer point = 0;
 
     // 사용자 등급
+    @Builder.Default
     private String userGrade = "BRONZE";
 
     // 투표 횟수
+    @Builder.Default
     private Integer voteCount = 0;
 
     // 제안 횟수
+    @Builder.Default
     private Integer proposalCount = 0;
 
     // 랭킹 점수
+    @Builder.Default
     private Integer rankingPoint = 0;
 
     // USER / ADMIN 권한
+    @Builder.Default
     private String role = "USER";
 
     // 생성 시간
