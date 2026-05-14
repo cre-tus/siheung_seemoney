@@ -5,38 +5,47 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.siheung_seemoney.R
+import com.example.siheung_seemoney.data.model.Post
+import com.example.siheung_seemoney.data.model.Comment
+import com.example.siheung_seemoney.data.repository.PostRepository
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
 class BoardActivity : AppCompatActivity() {
 
-    data class Comment(
-        val id: Long,
-        val postId: Int,
-        val author: String,
-        val content: String,
-        val date: String
-    )
+    // =========================
+    // PostRepository
+    // Retrofit/API 통신 담당 객체
+    // =========================
+    private val postRepository by lazy {
+        PostRepository(this)
+    }
 
-    data class Post(
-        val id: Int,
-        var title: String,
-        var content: String,
-        var author: String,
-        var date: String,
-        var likes: Int,
-        val comments: MutableList<Comment>,
-        var liked: Boolean
-    )
+    // =========================
+    // 서버에서 받아온 게시글 저장 리스트
+    // =========================
+    private val posts = mutableListOf<Post>()
 
-    private val posts = mutableListOf(
-        Post(1, "시청 앞 공원 재정비 제안", "시청 앞 공원이 노후화되어 리모델링이 필요합니다. 어린이 놀이터와 운동시설을 추가하면 좋겠습니다.", "김시흥", "2026.04.16", 245, mutableListOf(), false),
-        Post(2, "청년 창업 지원 예산 확대 요청", "청년들의 창업을 돕기 위한 지원금과 교육 프로그램 예산을 늘려주세요.", "이청년", "2026.04.15", 189, mutableListOf(), false),
-        Post(3, "문화센터 야간 운영 건의", "직장인들도 이용할 수 있도록 문화센터를 저녁 9시까지 운영해주시면 좋겠습니다.", "박시민", "2026.04.14", 132, mutableListOf(), false),
-        Post(4, "학교 급식 품질 개선 예산 배정", "우리 아이들이 먹는 급식의 질을 높이기 위해 예산을 더 투입해주세요.", "최학부모", "2026.04.13", 301, mutableListOf(), false)
-    )
+    // =========================
+    // 게시글별 댓글 캐시
+    // key = postId
+    // value = 댓글 리스트
+    // =========================
+    private val postComments =
+        mutableMapOf<Int, MutableList<Comment>>()
 
+    // =========================
+    // 현재 좋아요 누른 게시글 저장
+    // =========================
+    private val likedPosts =
+        mutableSetOf<Int>()
+
+    // =========================
+    // 현재 열려있는 댓글창 게시글 ID
+    // =========================
     private var activeCommentBox: Int? = null
 
     private lateinit var writeForm: LinearLayout
@@ -47,92 +56,299 @@ class BoardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_board)
 
+        // =========================
+        // XML View 연결
+        // =========================
         writeForm = findViewById(R.id.writeForm)
         etTitle = findViewById(R.id.etTitle)
         etContent = findViewById(R.id.etContent)
         topContainer = findViewById(R.id.topContainer)
         postContainer = findViewById(R.id.postContainer)
 
-        findViewById<Button>(R.id.btnWrite).setOnClickListener {
-            writeForm.visibility =
-                if (writeForm.visibility == View.VISIBLE) View.GONE else View.VISIBLE
-        }
+        // =========================
+        // 글쓰기 버튼
+        // 작성 폼 열기/닫기
+        // =========================
+        findViewById<Button>(R.id.btnWrite)
+            .setOnClickListener {
 
-        findViewById<Button>(R.id.btnSubmit).setOnClickListener {
-            handleSubmit()
-        }
+                writeForm.visibility =
+                    if (writeForm.visibility == View.VISIBLE)
+                        View.GONE
+                    else
+                        View.VISIBLE
+            }
 
-        findViewById<Button>(R.id.btnCancel).setOnClickListener {
-            writeForm.visibility = View.GONE
-        }
+        // =========================
+        // 게시글 등록 버튼
+        // =========================
+        findViewById<Button>(R.id.btnSubmit)
+            .setOnClickListener {
 
-        renderAll()
+                handleSubmit()
+            }
+
+        // =========================
+        // 글쓰기 취소 버튼
+        // =========================
+        findViewById<Button>(R.id.btnCancel)
+            .setOnClickListener {
+
+                writeForm.visibility = View.GONE
+            }
+
+        // =========================
+        // 앱 시작 시
+        // 서버에서 게시글 조회
+        // =========================
+        loadPosts()
+    }
+
+    private fun loadPosts() {
+
+        // =========================
+        // 코루틴 실행
+        // 네트워크 작업용
+        // =========================
+        lifecycleScope.launch {
+
+            // =========================
+            // 서버 API 호출
+            // 게시글 목록 요청
+            // =========================
+            val result =
+                postRepository.getPosts()
+
+            // =========================
+            // 성공 시
+            // =========================
+            result.onSuccess { postList ->
+
+                // 기존 게시글 제거
+                posts.clear()
+
+                // 서버 게시글 추가
+                posts.addAll(postList)
+
+                // 화면 다시 그림
+                renderAll()
+            }
+
+            // =========================
+            // 실패 시
+            // =========================
+            result.onFailure {
+
+                Toast.makeText(
+                    this@BoardActivity,
+                    "게시글 불러오기 실패",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     private fun handleSubmit() {
-        val title = etTitle.text.toString().trim()
-        val content = etContent.text.toString().trim()
 
-        if (title.isEmpty() || content.isEmpty()) return
+        // =========================
+        // 입력값 가져오기
+        // =========================
+        val title =
+            etTitle.text.toString().trim()
 
-        val date = SimpleDateFormat("yyyy.MM.dd", Locale.KOREA).format(Date())
+        val content =
+            etContent.text.toString().trim()
 
-        posts.add(
-            0,
-            Post(
-                id = posts.size + 1,
-                title = title,
-                content = content,
-                author = "익명",
-                date = date,
-                likes = 0,
-                comments = mutableListOf(),
-                liked = false
-            )
-        )
+        // =========================
+        // 제목/내용 비어있으면 종료
+        // =========================
+        if (title.isEmpty() || content.isEmpty())
+            return
 
-        etTitle.text.clear()
-        etContent.text.clear()
-        writeForm.visibility = View.GONE
+        lifecycleScope.launch {
 
-        renderAll()
+            // =========================
+            // 서버에 게시글 생성 요청
+            // =========================
+            val result =
+                postRepository.createPost(
+                    title,
+                    content
+                )
+
+            // =========================
+            // 작성 성공
+            // =========================
+            result.onSuccess {
+
+                Toast.makeText(
+                    this@BoardActivity,
+                    "+100P 적립!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                // 입력창 초기화
+                etTitle.text.clear()
+                etContent.text.clear()
+
+                // 작성 폼 닫기
+                writeForm.visibility = View.GONE
+
+                // 게시글 새로고침
+                loadPosts()
+            }
+
+            // =========================
+            // 작성 실패
+            // =========================
+            result.onFailure { error ->
+
+                Toast.makeText(
+                    this@BoardActivity,
+                    "게시글 작성 실패",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     private fun toggleLike(post: Post) {
-        post.liked = !post.liked
-        post.likes = if (post.liked) post.likes + 1 else post.likes - 1
 
-        if (post.liked) {
-            Toast.makeText(this, "${post.title} 공감 +50P", Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+
+            // =========================
+            // 좋아요 API 요청
+            // =========================
+            val result =
+                postRepository.toggleLike(post.id)
+
+            result.onSuccess { response ->
+
+                Toast.makeText(
+                    this@BoardActivity,
+                    response.message,
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                // =========================
+                // 좋아요 상태 저장
+                // =========================
+                if (response.liked) {
+
+                    likedPosts.add(post.id)
+
+                } else {
+
+                    likedPosts.remove(post.id)
+                }
+
+                // =========================
+                // 게시글 다시 조회
+                // =========================
+                loadPosts()
+            }
+
+            result.onFailure {
+
+                Toast.makeText(
+                    this@BoardActivity,
+                    "좋아요 실패",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
-
-        renderAll()
     }
 
-    private fun addComment(post: Post, input: EditText) {
-        val text = input.text.toString().trim()
-        if (text.isEmpty()) return
+    private fun loadComments(postId: Int) {
 
-        val date = SimpleDateFormat("yyyy.MM.dd", Locale.KOREA).format(Date())
+        lifecycleScope.launch {
 
-        post.comments.add(
-            Comment(
-                id = System.currentTimeMillis(),
-                postId = post.id,
-                author = "익명",
-                content = text,
-                date = date
-            )
-        )
+            // =========================
+            // 댓글 목록 요청
+            // =========================
+            val result =
+                postRepository.getComments(postId)
 
-        Toast.makeText(this, "${post.title} 댓글 작성 +30P", Toast.LENGTH_SHORT).show()
+            result.onSuccess { comments ->
 
-        activeCommentBox = null
-        renderAll()
+                // =========================
+                // 댓글 캐시에 저장
+                // =========================
+                postComments[postId] =
+                    comments.toMutableList()
+
+                // 댓글 UI 새로고침
+                renderPosts()
+            }
+
+            result.onFailure {
+
+                Toast.makeText(
+                    this@BoardActivity,
+                    "댓글 불러오기 실패",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
+    private fun addComment(
+        post: Post,
+        input: EditText
+    ) {
+
+        // =========================
+        // 댓글 입력값
+        // =========================
+        val text =
+            input.text.toString().trim()
+
+        if (text.isEmpty())
+            return
+
+        lifecycleScope.launch {
+
+            // =========================
+            // 댓글 작성 API 요청
+            // =========================
+            val result =
+                postRepository.createComment(
+                    post.id,
+                    text
+                )
+
+            result.onSuccess {
+
+                Toast.makeText(
+                    this@BoardActivity,
+                    "+30P 적립!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                // 입력창 초기화
+                input.text.clear()
+
+                // 댓글 새로고침
+                loadComments(post.id)
+
+                // 게시글 새로고침
+                // commentCount 반영
+                loadPosts()
+            }
+
+            result.onFailure {
+
+                Toast.makeText(
+                    this@BoardActivity,
+                    "댓글 작성 실패",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
     private fun renderAll() {
         renderTopPosts()
         renderPosts()
@@ -141,7 +357,7 @@ class BoardActivity : AppCompatActivity() {
     private fun renderTopPosts() {
         topContainer.removeAllViews()
 
-        posts.sortedByDescending { it.likes }
+        posts.sortedByDescending { it.likeCount }
             .take(3)
             .forEachIndexed { index, post ->
                 val row = LinearLayout(this)
@@ -167,7 +383,7 @@ class BoardActivity : AppCompatActivity() {
                 title.setPadding(14, 0, 8, 0)
 
                 val like = TextView(this)
-                like.text = "♥ ${post.likes}"
+                like.text = "♥ ${post.likeCount}"
                 like.textSize = 13f
                 like.setTextColor(0xFFEA580C.toInt())
                 like.setTypeface(null, Typeface.BOLD)
@@ -208,7 +424,9 @@ class BoardActivity : AppCompatActivity() {
             content.setPadding(0, 10, 0, 10)
 
             val info = TextView(this)
-            info.text = "${post.author}   🕒 ${post.date}"
+            // createdAt을 date 형식으로 변환
+            val dateStr = formatDate(post.createdAt)
+            info.text = "${post.nickname}   🕒 $dateStr"
             info.textSize = 12f
             info.setTextColor(0xFF6B7280.toInt())
 
@@ -217,16 +435,22 @@ class BoardActivity : AppCompatActivity() {
             actionRow.setPadding(0, 14, 0, 0)
 
             val likeButton = Button(this)
-            likeButton.text = if (post.liked) "♥ ${post.likes}" else "♡ ${post.likes}"
+            val isLiked = likedPosts.contains(post.id)
+            likeButton.text = if (isLiked) "♥ ${post.likeCount}" else "♡ ${post.likeCount}"
             likeButton.setOnClickListener {
                 toggleLike(post)
             }
 
             val commentButton = Button(this)
-            commentButton.text = "💬 ${post.comments.size}"
+            commentButton.text = "💬 ${post.commentCount}"
             commentButton.setOnClickListener {
                 activeCommentBox = if (activeCommentBox == post.id) null else post.id
-                renderPosts()
+                if (activeCommentBox == post.id) {
+                    // 댓글창 열릴 때 댓글 불러오기
+                    loadComments(post.id)
+                } else {
+                    renderPosts()
+                }
             }
 
             actionRow.addView(likeButton)
@@ -256,14 +480,18 @@ class BoardActivity : AppCompatActivity() {
         section.orientation = LinearLayout.VERTICAL
         section.setPadding(0, 16, 0, 0)
 
-        post.comments.forEach { comment ->
+        // 캐시된 댓글 목록 사용
+        val comments = postComments[post.id] ?: emptyList()
+
+        comments.forEach { comment ->
             val commentBox = LinearLayout(this)
             commentBox.orientation = LinearLayout.VERTICAL
             commentBox.setPadding(14, 12, 14, 12)
             commentBox.setBackgroundColor(0xFFF9FAFB.toInt())
 
             val meta = TextView(this)
-            meta.text = "${comment.author}   ${comment.date}"
+            val commentDateStr = formatDate(comment.createdAt)
+            meta.text = "${comment.nickname}   $commentDateStr"
             meta.textSize = 12f
             meta.setTextColor(0xFF374151.toInt())
             meta.setTypeface(null, Typeface.BOLD)
@@ -313,5 +541,17 @@ class BoardActivity : AppCompatActivity() {
 
         section.addView(inputRow)
         card.addView(section)
+    }
+
+    /**
+     * ISO 8601 날짜를 "yyyy.MM.dd" 형식으로 변환
+     */
+    private fun formatDate(isoDate: String): String {
+        return try {
+            // "2026-05-13T10:00:00" → "2026.05.13"
+            isoDate.split("T")[0].replace("-", ".")
+        } catch (e: Exception) {
+            isoDate
+        }
     }
 }
