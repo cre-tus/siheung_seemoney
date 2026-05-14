@@ -27,7 +27,8 @@ public class PostService {
     public PostResponseDto createPost(com.siheung.seemoney.domain.post.dto.PostRequestDto requestDto) {
         // 임시: 인증 시스템 연동 전까지 ID 1번 유저를 작성자로 설정
         com.siheung.seemoney.domain.user.entity.User user = userRepository.findById(1L)
-                .orElseThrow(() -> new IllegalArgumentException("Default user (ID 1) not found. Please run insert.sql"));
+                .orElseThrow(
+                        () -> new IllegalArgumentException("Default user (ID 1) not found. Please run insert.sql"));
 
         Post post = Post.builder()
                 .user(user)
@@ -35,8 +36,14 @@ public class PostService {
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
                 .build();
-        
+
         Post savedPost = postRepository.save(post);
         return new PostResponseDto(savedPost);
+    }
+
+    public PostResponseDto getPostByPublicId(String publicId) {
+        Post post = postRepository.findByPublicId(publicId)
+                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다: " + publicId));
+        return new PostResponseDto(post);
     }
 }

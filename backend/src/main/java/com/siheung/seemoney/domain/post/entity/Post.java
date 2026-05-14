@@ -44,12 +44,15 @@ public class Post {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
+    @Builder.Default
     @Column(name = "like_count")
     private int likeCount = 0;
 
+    @Builder.Default
     @Column(name = "comment_count")
     private int commentCount = 0;
 
+    @Builder.Default
     @Column(name = "view_count")
     private int viewCount = 0;
 

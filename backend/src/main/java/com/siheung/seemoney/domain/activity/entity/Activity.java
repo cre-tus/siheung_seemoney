@@ -35,6 +35,7 @@ public class Activity {
     private String title;
 
     // 획득/차감 포인트
+    @Builder.Default
     @Column(nullable = false)
     private int points = 0;
 

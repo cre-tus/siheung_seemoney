@@ -53,7 +53,6 @@ class CategoryBudgetAdapter : RecyclerView.Adapter<ViewHolder>() {
             binding.tvCategoryName.text = "● ${item.categoryName}"
             binding.tvCategoryBudget.text = "${formatter.format(item.budget)}원"
             binding.tvCategoryPercentage.text = "${item.percentage}%"
-            // 변동률 및 화살표 표시 로직 제거됨 (요구사항 반영)
 
             // 프로그레스 바 수치 및 색상(Drawable) 바인딩
             binding.pbCategory.progress = item.percentage
