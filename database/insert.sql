@@ -7,7 +7,7 @@ SET character_set_results = utf8mb4;
 INSERT INTO users (
     user_id,
     email,
-    password,
+    password_hash,
     address,
     points,
     user_grade,
