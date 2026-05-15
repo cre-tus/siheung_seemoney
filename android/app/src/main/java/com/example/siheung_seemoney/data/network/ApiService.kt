@@ -1,6 +1,8 @@
 package com.example.siheung_seemoney.data.network
 
 // Retrofit의 HTTP 응답 객체
+import com.example.siheung_seemoney.data.model.Comment
+import com.example.siheung_seemoney.data.model.Post
 import retrofit2.Response
 
 // Retrofit 어노테이션들
@@ -127,4 +129,53 @@ interface ApiService {
         @Body request: AddActivityRequest
 
     ): Response<AddActivityResponse>
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 게시글 API
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    /**
+     * 전체 게시글 조회
+     */
+    @GET("posts")
+    suspend fun getPosts(): Response<List<Post>>
+
+    /**
+     * 게시글 작성 (JWT 토큰 필요)
+     */
+    @POST("posts")
+    suspend fun createPost(
+        @Header("Authorization") token: String,
+        @Body request: CreatePostRequest
+    ): Response<Post>
+
+    /**
+     * 게시글 좋아요 토글 (JWT 토큰 필요)
+     */
+    @POST("posts/{postId}/like")
+    suspend fun toggleLike(
+        @Header("Authorization") token: String,
+        @Path("postId") postId: Int
+    ): Response<LikeResponse>
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 댓글 API
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    /**
+     * 특정 게시글의 댓글 조회
+     */
+    @GET("comments/post/{postId}")
+    suspend fun getComments(
+        @Path("postId") postId: Int
+    ): Response<List<Comment>>
+
+    /**
+     * 댓글 작성 (JWT 토큰 필요)
+     */
+    @POST("comments")
+    suspend fun createComment(
+        @Header("Authorization") token: String,
+        @Body request: CreateCommentRequest
+    ): Response<Comment>
 }
