@@ -24,18 +24,18 @@ public class BudgetController {
     @GetMapping("/categories/{categoryId}")
     public BudgetDetailResponse getBudgetDetail(
             @RequestParam Integer year,
-            @PathVariable Long categoryId
-    ) {
+            @PathVariable Long categoryId) {
         return budgetService.getBudgetDetail(year, categoryId);
     }
+
     @GetMapping("/live")
     public BudgetLiveResponse getLiveBudget(@RequestParam Integer year) {
         return budgetService.getLiveBudget(year);
     }
 }
 
-//이제 앱에서 호출할 주소: GET /api/budgets/summary?year=2025
+// 이제 앱에서 호출할 주소: GET /api/budgets/summary?year=2025
 
-//2025년 8개 대분류 요약: GET /api/budgets/categories/1?year=2025
+// 2025년 8개 대분류 요약: GET /api/budgets/categories/1?year=2025
 
-//라이브 호출 주소: GET http://localhost:8081/api/budgets/live?year=2026
+// 라이브 호출 주소: GET http://localhost:8081/api/budgets/live?year=2026
