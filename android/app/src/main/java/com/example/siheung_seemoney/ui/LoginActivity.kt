@@ -233,6 +233,24 @@ class LoginActivity : AppCompatActivity() {
 
                             saveLoginInfo(email)
 
+                            // JWT 토큰 파싱 후 저장 (ParticipateActivity 로그인 체크용)
+                            // [현재] 응답 JSON에서 "token" 필드를 간단 파싱
+                            // [추후] Retrofit AuthResponse 모델로 교체 권장
+                            try {
+                                val tokenStart = result?.indexOf("\"accessToken\":") ?: -1
+                                if (tokenStart >= 0) {
+                                    val valueStart = result!!.indexOf('"', tokenStart + 14) + 1
+                                    val valueEnd = result.indexOf('"', valueStart)
+                                    val token = result.substring(valueStart, valueEnd)
+                                    getSharedPreferences("auth_prefs", MODE_PRIVATE)
+                                        .edit()
+                                        .putString("jwt_token", token)
+                                        .apply()
+                                }
+                            } catch (e: Exception) {
+                                Log.e(TAG, "토큰 파싱 실패", e)
+                            }
+
                             // =========================
                             // 추가된 부분 끝
                             // =========================
@@ -343,6 +361,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun goToHome() {
+
+        // 게스트 진입 시 토큰 초기화 (비로그인 상태로 홈 이동)
+        val isGuestMode = !cbKeepLogin.isChecked &&
+            getSharedPreferences("auth_prefs", MODE_PRIVATE).getString("jwt_token", null) == null
+        // 게스트는 토큰 없음 → 참여 탭 접근 시 로그인 유도
 
         val intent =
             Intent(
