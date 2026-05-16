@@ -47,8 +47,8 @@
         android:layout_weight="1"
         android:fontFamily="@font/paperlogy_5medium"
         android:gravity="center"
-        android:text="☷\n제안"
-        android:textColor="#6B7280"
+        android:text="≣\n제안"
+        android:textColor="#2563EB"
         android:textSize="12sp" />
 
     <TextView

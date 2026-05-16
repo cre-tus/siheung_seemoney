@@ -1,305 +1,361 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F3F4F6"
-    android:fillViewport="true">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <!-- ========================= -->
+    <!-- 스크롤 영역 -->
+    <!-- ========================= -->
+
+    <ScrollView
+        android:id="@+id/contentContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-        <!-- 사용자 프로필 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_login_gradient"
-            android:elevation="6dp"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:padding="16dp">
+
+            <!-- ========================= -->
+            <!-- 사용자 프로필 -->
+            <!-- ========================= -->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:background="#33FFFFFF"
-                    android:gravity="center"
-                    android:text="👤"
-                    android:textSize="30sp" />
+                android:background="@drawable/bg_login_gradient"
+                android:elevation="6dp"
+                android:orientation="vertical"
+                android:padding="24dp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tvUserName"
-                        android:layout_width="wrap_content"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="#33FFFFFF"
+                        android:gravity="center"
+                        android:text="👤"
+                        android:textSize="30sp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="guest"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvUserName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/paperlogy_7bold"
+                            android:text="guest"
+                            android:textColor="#FFFFFF"
+                            android:textSize="22sp" />
+
+                        <TextView
+                            android:id="@+id/tvGrade"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="@font/paperlogy_6semibold"
+                            android:text="브론즈 등급"
+                            android:textColor="#FEF08A"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/btnRefresh"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="#33FFFFFF"
+                        android:fontFamily="@font/paperlogy_7bold"
+                        android:gravity="center"
+                        android:text="↻"
                         android:textColor="#FFFFFF"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvGrade"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="브론즈 등급"
-                        android:textColor="#FEF08A"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textSize="22sp" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/btnRefresh"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="#33FFFFFF"
-                    android:gravity="center"
-                    android:text="↻"
-                    android:textColor="#FFFFFF"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="18dp"
+                    android:background="#60BFDBFE" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
+
+                    <!-- 포인트 -->
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvPoint"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/paperlogy_7bold"
+                            android:text="320"
+                            android:textColor="#FFFFFF"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/paperlogy_4regular"
+                            android:text="포인트"
+                            android:textColor="#DBEAFE"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <!-- 투표 -->
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvVote"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/paperlogy_7bold"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/paperlogy_4regular"
+                            android:text="투표"
+                            android:textColor="#DBEAFE"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <!-- 제안 -->
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvPost"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/paperlogy_7bold"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/paperlogy_4regular"
+                            android:text="제안"
+                            android:textColor="#DBEAFE"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="18dp"
-                android:background="#60BFDBFE" />
+            <!-- ========================= -->
+            <!-- 등급 진행도 -->
+            <!-- ========================= -->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:orientation="horizontal">
+                android:background="@drawable/bg_login_card"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tvPoint"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="320"
-                        android:textColor="#FFFFFF"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:fontFamily="@font/paperlogy_7bold"
+                        android:text="다음 등급까지"
+                        android:textColor="#111827"
+                        android:textSize="17sp" />
 
                     <TextView
+                        android:id="@+id/tvNextPoint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="포인트"
-                        android:textColor="#DBEAFE"
-                        android:textSize="12sp" />
+                        android:fontFamily="@font/paperlogy_5medium"
+                        android:text="179P 남음"
+                        android:textColor="#6B7280"
+                        android:textSize="13sp" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvVote"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textColor="#FFFFFF"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="투표"
-                        android:textColor="#DBEAFE"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvPost"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textColor="#FFFFFF"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="제안"
-                        android:textColor="#DBEAFE"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- 등급 진행도 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_login_card"
-            android:elevation="2dp"
-            android:orientation="vertical"
-            android:padding="20dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:layout_marginTop="14dp"
+                    android:max="100"
+                    android:progress="64" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="다음 등급까지"
-                    android:textColor="#111827"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvNextPoint"
+                    android:id="@+id/tvGradePath"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="179P 남음"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/paperlogy_5medium"
+                    android:text="브론즈 → 실버"
                     android:textColor="#6B7280"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:layout_marginTop="14dp"
-                android:max="100"
-                android:progress="64" />
-
-            <TextView
-                android:id="@+id/tvGradePath"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="브론즈 → 실버"
-                android:textColor="#6B7280"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- 등급별 혜택 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_login_card"
-            android:elevation="2dp"
-            android:orientation="vertical"
-            android:padding="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="등급별 혜택"
-                android:textColor="#111827"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+            <!-- ========================= -->
+            <!-- 등급별 혜택 -->
+            <!-- ========================= -->
 
             <LinearLayout
-                android:id="@+id/rewardContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:orientation="vertical" />
-        </LinearLayout>
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_login_card"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-        <!-- 참여 내역 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_login_card"
-            android:elevation="2dp"
-            android:orientation="vertical"
-            android:padding="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_7bold"
+                    android:text="등급별 혜택"
+                    android:textColor="#111827"
+                    android:textSize="17sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="참여 내역"
-                android:textColor="#111827"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                <LinearLayout
+                    android:id="@+id/rewardContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:orientation="vertical" />
+            </LinearLayout>
+
+            <!-- ========================= -->
+            <!-- 참여 내역 -->
+            <!-- ========================= -->
 
             <LinearLayout
-                android:id="@+id/historyContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical" />
-        </LinearLayout>
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_login_card"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-        <!-- 포인트 안내 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="#FFFBEB"
-            android:orientation="vertical"
-            android:padding="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_7bold"
+                    android:text="참여 내역"
+                    android:textColor="#111827"
+                    android:textSize="17sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🏆 포인트 적립 안내"
-                android:textColor="#92400E"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                <LinearLayout
+                    android:id="@+id/historyContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical" />
+            </LinearLayout>
 
-            <TextView
+            <!-- ========================= -->
+            <!-- 포인트 적립 안내 -->
+            <!-- ========================= -->
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="• 투표 참여: 100P\n• 제안 작성: 100P\n• 공감하기: 50P\n• 댓글 작성: 30P"
-                android:textColor="#92400E"
-                android:textSize="14sp" />
+                android:layout_marginTop="16dp"
+                android:background="#FFFBEB"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_7bold"
+                    android:text="🏆 포인트 적립 안내"
+                    android:textColor="#92400E"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/paperlogy_5medium"
+                    android:text="• 투표 참여: 100P&#10;• 제안 작성: 100P&#10;• 공감하기: 50P&#10;• 댓글 작성: 30P"
+                    android:textColor="#92400E"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- ========================= -->
+            <!-- 로그아웃 -->
+            <!-- ========================= -->
+
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="#FFFFFF"
+                android:fontFamily="@font/paperlogy_6semibold"
+                android:text="로그아웃"
+                android:textColor="#DC2626"
+                android:textSize="15sp" />
+
         </LinearLayout>
 
-        <!-- 로그아웃 -->
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="#FFFFFF"
-            android:text="로그아웃"
-            android:textColor="#DC2626"
-            android:textStyle="bold" />
+    </ScrollView>
 
-    </LinearLayout>
-</ScrollView>
+    <!-- ========================= -->
+    <!-- 하단 네비게이션 -->
+    <!-- ========================= -->
+
+    <include
+        android:id="@+id/bottomNav"
+        layout="@layout/include_bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="80dp" />
+
+</LinearLayout>

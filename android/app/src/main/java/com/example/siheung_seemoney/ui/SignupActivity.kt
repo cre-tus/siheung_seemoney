@@ -222,6 +222,7 @@ class SignupActivity : AppCompatActivity() {
                     val result = authRepository.signup(
                         email = binding.etEmail.text.toString().trim(),
                         password = binding.etPassword.text.toString(),
+                        nickname = binding.etNickname.text.toString().trim(),
                         address = binding.etAddress.text.toString().trim()
                     )
 
@@ -268,6 +269,9 @@ class SignupActivity : AppCompatActivity() {
         val confirm =
             binding.etConfirmPassword.text.toString()
 
+        val nickname =
+            binding.etNickname.text.toString().trim()
+
         val address =
             binding.etAddress.text.toString().trim()
 
@@ -288,6 +292,18 @@ class SignupActivity : AppCompatActivity() {
         if (password != confirm) {
 
             showError("비밀번호가 일치하지 않습니다")
+            return false
+        }
+
+        if (nickname.isEmpty()) {
+
+            showError("닉네임을 입력해주세요")
+            return false
+        }
+
+        if (nickname.length < 2) {
+
+            showError("닉네임은 2자 이상이어야 합니다")
             return false
         }
 

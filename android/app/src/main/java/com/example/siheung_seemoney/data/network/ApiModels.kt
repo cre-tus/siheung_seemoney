@@ -13,16 +13,19 @@ import com.example.siheung_seemoney.data.model.ActivityType
  * 회원가입 요청
  */
 data class SignupRequest(
+
     @SerializedName("email")
     val email: String,
 
     @SerializedName("password")
     val password: String,
 
+    @SerializedName("nickname")
+    val nickname: String,
+
     @SerializedName("address")
     val address: String
 )
-
 /**
  * 로그인 요청
  */

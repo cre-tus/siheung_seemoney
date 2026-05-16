@@ -37,11 +37,15 @@ enum class UserRole {
  * 사용자 정보 (DB users 테이블)
  */
 data class User(
-    @SerializedName("user_id")
+
+    @SerializedName("userId")
     val userId: Int,
 
     @SerializedName("email")
     val email: String,
+
+    @SerializedName("nickname")
+    val nickname: String,
 
     @SerializedName("address")
     val address: String,
@@ -49,26 +53,26 @@ data class User(
     @SerializedName("point")
     val point: Int = 0,
 
-    @SerializedName("user_grade")
+    @SerializedName("userGrade")
     val userGrade: UserGrade = UserGrade.BRONZE,
 
-    @SerializedName("vote_count")
+    @SerializedName("voteCount")
     val voteCount: Int = 0,
 
-    @SerializedName("proposal_count")
+    @SerializedName("proposalCount")
     val proposalCount: Int = 0,
 
-    @SerializedName("ranking_point")
+    @SerializedName("rankingPoint")
     val rankingPoint: Int = 0,
 
     @SerializedName("role")
     val role: UserRole = UserRole.USER,
 
-    @SerializedName("created_at")
-    val createdAt: String,
+    @SerializedName("createdAt")
+    val createdAt: String? = null,
 
-    @SerializedName("updated_at")
-    val updatedAt: String
+    @SerializedName("updatedAt")
+    val updatedAt: String? = null
 )
 
 /**

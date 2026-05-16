@@ -3,6 +3,7 @@ package com.example.siheung_seemoney.data.network
 // Retrofit의 HTTP 응답 객체
 import com.example.siheung_seemoney.data.model.Comment
 import com.example.siheung_seemoney.data.model.Post
+import com.example.siheung_seemoney.data.model.User
 import retrofit2.Response
 
 // Retrofit 어노테이션들
@@ -78,7 +79,7 @@ interface ApiService {
         // HTTP Header에 Authorization 값 추가
         @Header("Authorization") token: String
 
-    ): Response<UserResponse>
+    ): Response<User>
 
     /**
      * 비밀번호 재설정 API

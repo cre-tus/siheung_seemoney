@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- 로그인으로 돌아가기 버튼 추가 -->
+        <!-- 로그인으로 돌아가기 -->
 
         <TextView
             android:id="@+id/btnBackLogin"
@@ -25,6 +25,8 @@
             android:text="로그인으로 돌아가기"
             android:textColor="#DBEAFE"
             android:textSize="13sp" />
+
+        <!-- 타이틀 -->
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,6 +47,8 @@
             android:textColor="#DBEAFE"
             android:textSize="12sp" />
 
+        <!-- 카드 -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,6 +56,8 @@
             android:background="@drawable/bg_login_card"
             android:orientation="vertical"
             android:padding="22dp">
+
+            <!-- 에러 -->
 
             <TextView
                 android:id="@+id/tvError"
@@ -63,13 +69,17 @@
                 android:textColor="#DC2626"
                 android:visibility="gone" />
 
+            <!-- ========================= -->
             <!-- STEP 1 -->
+            <!-- ========================= -->
 
             <LinearLayout
                 android:id="@+id/layoutStep1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <!-- 이메일 -->
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -78,17 +88,37 @@
                     android:text="이메일 *"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/etEmail"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_login_input"
-                    android:fontFamily="@font/paperlogy_4regular"
-                    android:hint="example@email.com"
-                    android:inputType="textEmailAddress"
-                    android:maxLength="100"
-                    android:paddingHorizontal="14dp" />
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/etEmail"
+                        android:layout_width="0dp"
+                        android:layout_height="52dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_login_input"
+                        android:fontFamily="@font/paperlogy_4regular"
+                        android:hint="example@email.com"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="100"
+                        android:paddingHorizontal="14dp" />
+
+                    <Button
+                        android:id="@+id/btnCheckEmail"
+                        android:layout_width="110dp"
+                        android:layout_height="52dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_button_blue"
+                        android:fontFamily="@font/paperlogy_5medium"
+                        android:text="중복확인"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- 비밀번호 -->
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -126,6 +156,8 @@
                         android:textColor="#6B7280" />
                 </FrameLayout>
 
+                <!-- 비밀번호 조건 -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -136,7 +168,6 @@
                         android:id="@+id/tvLength"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/paperlogy_4regular"
                         android:text="✗ 8자 이상"
                         android:textSize="12sp" />
 
@@ -144,7 +175,6 @@
                         android:id="@+id/tvNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/paperlogy_4regular"
                         android:text="✗ 숫자 포함"
                         android:textSize="12sp" />
 
@@ -152,7 +182,6 @@
                         android:id="@+id/tvSpecial"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/paperlogy_4regular"
                         android:text="✗ 특수문자 포함"
                         android:textSize="12sp" />
 
@@ -160,16 +189,16 @@
                         android:id="@+id/tvUpper"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/paperlogy_4regular"
                         android:text="✗ 영문 대문자 포함"
                         android:textSize="12sp" />
                 </LinearLayout>
+
+                <!-- 비밀번호 확인 -->
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="비밀번호 확인 *"
                     android:textStyle="bold" />
 
@@ -183,7 +212,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/bg_login_input"
-                        android:fontFamily="@font/paperlogy_4regular"
                         android:hint="••••••••"
                         android:inputType="textPassword"
                         android:paddingStart="14dp"
@@ -194,18 +222,54 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="end"
-                        android:fontFamily="@font/paperlogy_5medium"
                         android:gravity="center"
                         android:paddingHorizontal="14dp"
                         android:text="보기"
                         android:textColor="#6B7280" />
                 </FrameLayout>
 
+                <!-- 닉네임 -->
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:fontFamily="@font/paperlogy_4regular"
+                    android:text="닉네임 *"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/etNickname"
+                        android:layout_width="0dp"
+                        android:layout_height="52dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_login_input"
+                        android:hint="닉네임 입력"
+                        android:maxLength="20"
+                        android:paddingHorizontal="14dp" />
+
+                    <Button
+                        android:id="@+id/btnCheckNickname"
+                        android:layout_width="110dp"
+                        android:layout_height="52dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_button_blue"
+                        android:text="중복확인"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- 주소 -->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:text="주소 *"
                     android:textStyle="bold" />
 
@@ -221,10 +285,11 @@
                     android:layout_height="52dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/bg_login_input"
-                    android:fontFamily="@font/paperlogy_4regular"
                     android:hint="상세 주소 입력"
                     android:maxLength="255"
                     android:paddingHorizontal="14dp" />
+
+                <!-- 가입 기본 정보 -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -237,7 +302,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/paperlogy_4regular"
                         android:text="가입 시 자동 설정 값"
                         android:textColor="#1D4ED8"
                         android:textStyle="bold" />
@@ -246,11 +310,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:fontFamily="@font/paperlogy_4regular"
                         android:text="포인트: 0P&#10;등급: 브론즈&#10;투표 수: 0&#10;제안 수: 0&#10;권한: USER"
                         android:textColor="#1E3A8A"
                         android:textSize="12sp" />
                 </LinearLayout>
+
+                <!-- 다음 버튼 -->
 
                 <Button
                     android:id="@+id/btnNext"
@@ -258,13 +323,14 @@
                     android:layout_height="52dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/bg_button_blue"
-                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="다음 단계"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" />
             </LinearLayout>
 
+            <!-- ========================= -->
             <!-- STEP 2 -->
+            <!-- ========================= -->
 
             <LinearLayout
                 android:id="@+id/layoutStep2"
@@ -273,94 +339,94 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/paperlogy_7bold"
+                    android:text="약관 동의"
+                    android:textColor="#111827"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
                 <CheckBox
                     android:id="@+id/cbAll"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/paperlogy_4regular"
+                    android:layout_marginTop="20dp"
                     android:text="전체 동의" />
 
                 <CheckBox
                     android:id="@+id/cbTerms"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="[필수] 이용약관 동의" />
 
                 <CheckBox
                     android:id="@+id/cbPrivacy"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="[필수] 개인정보 처리방침 동의" />
 
                 <CheckBox
                     android:id="@+id/cbMarketing"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/paperlogy_4regular"
                     android:text="[선택] 마케팅 정보 수신 동의" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="24dp"
                     android:background="#F9FAFB"
                     android:orientation="vertical"
-                    android:padding="14dp">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/paperlogy_4regular"
                         android:text="📋 개인정보 수집 항목"
+                        android:textColor="#374151"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/paperlogy_4regular"
+                        android:layout_marginTop="10dp"
                         android:text="• 이메일 (email)&#10;• 주소 (address)&#10;• 가입일시 (created_at)&#10;• 수정일시 (updated_at)"
+                        android:textColor="#6B7280"
                         android:textSize="12sp" />
                 </LinearLayout>
-
-                <!-- STEP2 이전 단계 버튼 추가 -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="28dp"
                     android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/btnBack"
                         android:layout_width="0dp"
                         android:layout_height="52dp"
-                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_login_input"
-                        android:fontFamily="@font/paperlogy_4regular"
+                        android:background="@drawable/bg_button_gray"
                         android:text="이전 단계"
-                        android:textColor="#374151"
-                        android:textStyle="bold" />
+                        android:textColor="#374151" />
 
                     <Button
                         android:id="@+id/btnSignup"
                         android:layout_width="0dp"
                         android:layout_height="52dp"
+                        android:layout_marginStart="10dp"
                         android:layout_weight="1"
                         android:background="@drawable/bg_button_blue"
-                        android:fontFamily="@font/paperlogy_4regular"
                         android:text="회원가입 완료"
-                        android:textColor="#FFFFFF"
-                        android:textStyle="bold" />
-
+                        android:textColor="#FFFFFF" />
                 </LinearLayout>
-
             </LinearLayout>
 
+            <!-- ========================= -->
             <!-- SUCCESS -->
+            <!-- ========================= -->
 
             <LinearLayout
                 android:id="@+id/layoutSuccess"
@@ -368,13 +434,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
+                android:paddingVertical="40dp"
                 android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/paperlogy_4regular"
-                    android:text="가입 완료!"
+                    android:text="회원가입 완료!"
                     android:textColor="#111827"
                     android:textSize="28sp"
                     android:textStyle="bold" />
@@ -382,40 +448,23 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/paperlogy_4regular"
-                    android:text="시흥See머니 회원이 되신 걸 환영합니다 🎉"
-                    android:textColor="#6B7280" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="#F9FAFB"
-                    android:orientation="vertical"
-                    android:padding="18dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/paperlogy_4regular"
-                        android:text="회원 ID: #1&#10;등급: 브론즈&#10;포인트: 0P&#10;권한: USER"
-                        android:textSize="13sp" />
-                </LinearLayout>
+                    android:layout_marginTop="10dp"
+                    android:text="이제 로그인할 수 있습니다."
+                    android:textColor="#6B7280"
+                    android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/btnGoLogin"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="30dp"
                     android:background="@drawable/bg_button_blue"
-                    android:fontFamily="@font/paperlogy_4regular"
-                    android:text="로그인하러 가기"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
+                    android:text="로그인 하러가기"
+                    android:textColor="#FFFFFF" />
             </LinearLayout>
 
         </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>
