@@ -277,3 +277,82 @@ CREATE TABLE debts (
 
 
 
+-- =========================
+-- 투표 게시글 테이블
+-- =========================
+
+CREATE TABLE votes (
+                       vote_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+
+    -- 투표 제목
+                       title VARCHAR(200) NOT NULL,
+
+    -- 투표 설명
+                       description TEXT NOT NULL,
+
+    -- 마감일
+                       end_date DATE NOT NULL,
+
+    -- 전체 참여자 수
+                       participant_count INT NOT NULL DEFAULT 0,
+
+    -- 생성일
+                       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =========================
+-- 투표 항목 테이블
+-- =========================
+
+CREATE TABLE vote_options (
+                              option_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+
+    -- 어떤 투표의 항목인지
+                              vote_id BIGINT NOT NULL,
+
+    -- 항목 이름
+                              option_name VARCHAR(100) NOT NULL,
+
+    -- 득표 수
+                              vote_count INT NOT NULL DEFAULT 0,
+
+                              FOREIGN KEY (vote_id)
+                                  REFERENCES votes(vote_id)
+                                  ON DELETE CASCADE
+);
+
+-- =========================
+-- 사용자 투표 참여 기록 테이블
+-- 관리자용 참여자 조회 가능
+-- =========================
+
+CREATE TABLE vote_participants (
+                                   participant_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+
+    -- 참여한 사용자
+                                   user_id BIGINT NOT NULL,
+
+    -- 참여한 투표
+                                   vote_id BIGINT NOT NULL,
+
+    -- 선택한 항목
+                                   option_id BIGINT NOT NULL,
+
+    -- 참여 시간
+                                   voted_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+                                   FOREIGN KEY (user_id)
+                                       REFERENCES users(user_id)
+                                       ON DELETE CASCADE,
+
+                                   FOREIGN KEY (vote_id)
+                                       REFERENCES votes(vote_id)
+                                       ON DELETE CASCADE,
+
+                                   FOREIGN KEY (option_id)
+                                       REFERENCES vote_options(option_id)
+                                       ON DELETE CASCADE,
+
+    -- 한 사용자는 한 투표에 한 번만 참여 가능
+                                   UNIQUE (user_id, vote_id)
+);
