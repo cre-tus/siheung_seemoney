@@ -31,12 +31,8 @@ public class Post {
 
     // 작성자 (User 엔티티와 다대일 관계)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
-
-    // 작성 당시 닉네임 (탈퇴나 변경 대비 스냅샷 용도)
-    @Column(nullable = false, length = 50)
-    private String nickname;
 
     @Column(nullable = false, length = 200)
     private String title;

@@ -46,7 +46,11 @@ CREATE TABLE users (
 
     -- 사용자 정보 수정 시간
                        updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-                           ON UPDATE CURRENT_TIMESTAMP
+                           ON UPDATE CURRENT_TIMESTAMP,
+
+    -- 사용자 닉네임
+    -- 앱 내 표시 이름
+                       nickname VARCHAR(50) NOT NULL UNIQUE
 );
 
 -- =========================
@@ -126,9 +130,6 @@ CREATE TABLE posts (
     -- 작성자 ID
     -- users 테이블과 연결 가능
     user_id BIGINT NOT NULL,
-
-    -- 작성자 닉네임
-    nickname VARCHAR(50) NOT NULL,
 
     -- 게시글 제목
     title VARCHAR(200) NOT NULL,
@@ -212,9 +213,6 @@ CREATE TABLE comments (
 
     -- 댓글 작성자 ID
                           user_id BIGINT NOT NULL,
-
-    -- 댓글 작성자 닉네임
-                          nickname VARCHAR(50) NOT NULL,
 
     -- 댓글 내용
                           content TEXT NOT NULL,

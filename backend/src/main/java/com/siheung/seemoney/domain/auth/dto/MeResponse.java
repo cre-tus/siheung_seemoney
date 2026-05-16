@@ -16,6 +16,9 @@ public class MeResponse {
     // 주소
     private String address;
 
+    //닉네임
+    private String nickname;
+
     // 포인트
     private Integer point;
 

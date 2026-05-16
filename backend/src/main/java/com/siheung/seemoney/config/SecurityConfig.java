@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 @RequiredArgsConstructor
@@ -41,6 +42,12 @@ public class SecurityConfig {
                                                                 "/api/auth/login",
                                                                 "/api/auth/signup")
                                                 .permitAll()
+
+                                                //로그인 없이 게스트 회원 게시글 조회 허용
+                                                .requestMatchers(
+                                                        HttpMethod.GET,
+                                                        "/api/posts/**"
+                                                ).permitAll()
 
                                                 // 예산 API는 인증 없이 허용 (프론트 테스트용)
                                                 .requestMatchers("/api/budgets/**").permitAll()
