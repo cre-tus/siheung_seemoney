@@ -16,7 +16,8 @@ INSERT INTO users (
     ranking_point,
     role,
     created_at,
-    updated_at
+    updated_at,
+    nickname
 ) VALUES (
              1,
              'test@test.com',
@@ -29,7 +30,8 @@ INSERT INTO users (
              0,
              'USER',
              '2026-05-14 18:11:44',
-             '2026-05-14 18:11:44'
+             '2026-05-14 18:11:44',
+            'test'
          );
 
 INSERT INTO budget_category (id, name, display_order) VALUES

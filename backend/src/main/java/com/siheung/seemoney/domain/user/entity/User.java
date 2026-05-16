@@ -27,6 +27,10 @@ public class User {
     @Column(nullable = false)
     private String passwordHash;
 
+    //유저 닉네임
+    @Column(nullable = false, unique = true)
+    private String nickname;
+
     // 주소
     @Column(nullable = false)
     private String address;

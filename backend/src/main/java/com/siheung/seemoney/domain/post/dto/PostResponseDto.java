@@ -19,7 +19,7 @@ public class PostResponseDto {
     public PostResponseDto(Post post) {
         this.id = post.getId();
         this.publicId = post.getPublicId();
-        this.nickname = post.getNickname();
+        this.nickname = post.getUser().getNickname();
         this.title = post.getTitle();
         this.content = post.getContent();
         this.likeCount = post.getLikeCount();

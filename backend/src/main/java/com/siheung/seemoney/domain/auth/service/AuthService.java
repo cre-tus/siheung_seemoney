@@ -47,6 +47,7 @@ public class AuthService {
                 .proposalCount(0)
                 .rankingPoint(0)
                 .role("USER")
+                .nickname(request.getNickname())
                 .build();
 
         // DB 저장
