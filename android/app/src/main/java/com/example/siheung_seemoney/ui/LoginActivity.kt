@@ -46,7 +46,66 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // =========================
+        // SharedPreferences 초기화
+        // 로그인 관련 설정 저장소
+        // =========================
+
+        prefs = getSharedPreferences(
+            "login_pref",
+            MODE_PRIVATE
+        )
+
+        // =========================
+        // 자동 로그인 체크
+        // 앱 실행 시 저장된 토큰 확인
+        // =========================
+
+        val keepLogin =
+            prefs.getBoolean(
+                "keep_login",
+                false
+            )
+
+        val token =
+            getSharedPreferences(
+                "auth_prefs",
+                MODE_PRIVATE
+            ).getString(
+                "jwt_token",
+                null
+            )
+
+        Log.d("AUTO_LOGIN", "keepLogin = $keepLogin")
+        Log.d("AUTO_LOGIN", "savedToken = $token")
+
+        // 로그인 유지 체크 + 토큰 존재 시
+        // 로그인 화면 건너뛰고 홈 이동
+        if (keepLogin && token != null) {
+
+            Log.d("AUTO_LOGIN", "자동 로그인 성공")
+
+            startActivity(
+                Intent(
+                    this,
+                    HomeActivity::class.java
+                )
+            )
+
+            finish()
+            return
+        }
+
+        // =========================
+        // 로그인 화면 표시
+        // =========================
+
         setContentView(R.layout.activity_login)
+
+        // =========================
+        // View 연결
+        // =========================
 
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
@@ -57,24 +116,14 @@ class LoginActivity : AppCompatActivity() {
         btnForgot = findViewById(R.id.btnForgot)
         btnSignup = findViewById(R.id.btnSignup)
 
-        // =========================
-        // 추가된 부분 시작
-        // 체크박스 연결
-        // =========================
-
         cbRememberId = findViewById(R.id.cbRememberId)
         cbKeepLogin = findViewById(R.id.cbKeepLogin)
 
-        prefs = getSharedPreferences(
-            "login_pref",
-            MODE_PRIVATE
-        )
+        // =========================
+        // 저장된 이메일 / 체크박스 복원
+        // =========================
 
         loadSavedLoginInfo()
-
-        // =========================
-        // 추가된 부분 끝
-        // =========================
 
         btnTogglePassword.setOnClickListener {
 
